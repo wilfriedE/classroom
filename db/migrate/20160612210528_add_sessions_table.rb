@@ -5,6 +5,7 @@ class AddSessionsTable < ActiveRecord::Migration
       t.text :data
       t.timestamps
       t.belongs_to :user, index: true
+      t.text :scopes
     end
 
     add_index :sessions, :session_id, :unique => true

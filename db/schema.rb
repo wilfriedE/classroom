@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(version: 20160612210528) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.text     "scopes"
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true, using: :btree

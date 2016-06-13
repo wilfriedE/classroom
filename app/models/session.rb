@@ -8,5 +8,6 @@ class Session < ActiveRecord::SessionStore::Session
 
   def copy_to_columns
     self.user_id = data['user_id']
+    self.scopes = data["current_scopes"]
   end
 end
