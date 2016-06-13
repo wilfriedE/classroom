@@ -53,6 +53,8 @@ gem 'turbolinks'
 
 gem 'uglifier', '>= 1.3.0'
 
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
