@@ -13,7 +13,7 @@ class OrganizationService
     end
     github_organization = GitHubOrganization.new(@creator.github_client, @new_organization_params[:github_id])
     github_organization.delete_all_org_hooks
-    hook = github_organization.create_org_hook(config: { url: hook_url })
+    hook = github_organization.create_org_hook(config: { url: @hook_url })
     Organization.new(@new_organization_params.tap { |hash| hash[:webhook_id] = hook.id })
   end
 end
