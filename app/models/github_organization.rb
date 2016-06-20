@@ -23,6 +23,28 @@ class GitHubOrganization < GitHubResource
     end
   end
 
+  # Public
+  #
+  def create_org_hook(config: {}, options: {})
+    GitHub::Errors.with_error_handling do
+      hook_config = github_org_hook_default_config.merge(config)
+                                                  .tap { |hash| hash[:secret] = ENV['WEBHOOK_SECRET'] }
+      hook_options = github_org_hook_default_options.merge(options)
+      @client.create_org_hook(@id, hook_config, hook_options)
+    end
+  end
+
+  # Public
+  #
+  def delete_all_org_hooks
+    GitHub::Errors.with_error_handling do
+      hooks = @client.org_hooks(@id)
+      hooks.each { |hook| @client.remove_org_hook(@id, hook.id) }
+    end
+  rescue GitHub::NotFound
+    return
+  end
+
   def create_repository(repo_name, users_repo_options = {})
     repo_options = github_repo_default_options.merge(users_repo_options)
 
@@ -102,6 +124,23 @@ class GitHubOrganization < GitHubResource
 
   def attributes
     %w(login avatar_url html_url name)
+  end
+
+  # Internal
+  #
+  def github_org_hook_default_config
+    {
+      content_type: 'json'
+    }
+  end
+
+  # Internal
+  #
+  def github_org_hook_default_options
+    {
+      events: %w(push),
+      active: true
+    }
   end
 
   def github_repo_default_options
