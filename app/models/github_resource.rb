@@ -4,7 +4,7 @@ class GitHubResource
 
   def initialize(client, id)
     @client = client
-    @id     = id.to_i
+    @id     = id
 
     create_attribute_methods(client, id, attributes)
   end

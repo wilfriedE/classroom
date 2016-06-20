@@ -11,7 +11,7 @@ class OrganizationService
     unless Classroom.flipper[:explicit_assignment_submission].enabled? @creator
       return Organization.new(@new_organization_params)
     end
-    github_organization = GitHubOrganization.new(@creator.github_client, @new_organization_params[:github_id])
+    github_organization = GitHubOrganization.new(@creator.github_client, @new_organization_params[:github_id].to_i)
     github_organization.delete_all_org_hooks
     hook = github_organization.create_org_hook(config: { url: @hook_url })
     Organization.new(@new_organization_params.tap { |hash| hash[:webhook_id] = hook.id })
