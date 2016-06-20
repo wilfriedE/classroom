@@ -5,4 +5,8 @@ module Classroom
     GROUP_ASSIGNMENT_STUDENT = %w(admin:org user:email).freeze
     ASSIGNMENT_STUDENT       = %w(user:email).freeze
   end
+
+  module ExplicitSubmission
+    TEACHER = %w(user:email repo delete_repo admin:org admin:org_hook).freeze
+  end
 end
