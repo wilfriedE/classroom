@@ -58,6 +58,10 @@ class WebhookController < ApplicationController
   end
 
   def handle_release_event
+    github_repo = student_assignment_repo.github_repository
+    sha = github_repo.ref("tags/#{params.dig(:release, :tag_name)}").object.sha
+    p sha
+    github_repo.create_commit_status(sha, 'success', context: 'classroom/assignment-submission')
     render nothing: true, status: 200
   end
 end

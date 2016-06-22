@@ -6,10 +6,22 @@ class GitHubRepository < GitHubResource
     end
   end
 
+  def create_commit_status(sha, state, options = {})
+    GitHub::Errors.with_error_handling do
+      @client.create_status(@id, sha, state, options)
+    end
+  end
+
   def get_starter_code_from(source)
     GitHub::Errors.with_error_handling do
       credentials = { vcs_username: @client.login, vcs_password: @client.access_token }
       @client.start_source_import(@id, 'git', "https://github.com/#{source.full_name}", credentials)
+    end
+  end
+
+  def ref(ref, options = {})
+    GitHub::Errors.with_error_handling do
+      @client.ref(@id, ref, options)
     end
   end
 
