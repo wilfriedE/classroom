@@ -34,7 +34,8 @@ module Classroom
 
     # Precompile Fonts
     # Compile all font types except octicons-local
-    config.assets.precompile << %r(octicons/octicons/octicons+\.(?:svg|eot|woff|ttf)$)
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components', 'octicons', 'build', 'font')
+    config.assets.precompile << %r(octicons+\.(?:svg|eot|woff|ttf)$)
 
     # Configure the generators
     config.generators do |g|

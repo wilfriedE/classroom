@@ -1,4 +1,145 @@
-### 3.0.0
+### 4.1.0 (June 6, 2016)
+
+Adds:
+
+- Installation docs https://github.com/primer/octicons/pull/94
+- `grabber`
+- `plus-small`
+
+Modifies:
+
+- `smiley`
+
+Refines:
+
+- Renames `mail-reply` to `reply` and refines its shape.
+
+Fixes:
+
+- Revert license back to SPDX standard
+
+### 4.0.0 (June 6, 2016)
+
+Adds:
+
+- Whole new grunt build system including svg sprite sheet.
+- adding css min https://github.com/primer/octicons/pull/60
+- adding woff2 format https://github.com/primer/octicons/issues/3
+- creates spritesheet of svg files https://github.com/primer/octicons/issues/88
+
+Removes:
+
+- Bower support
+
+Fixes:
+
+- all svg icons include viewBox https://github.com/primer/octicons/issues/87
+- license in package.json https://github.com/primer/octicons/issues/85
+
+### 3.5.0 (February 12, 2016)
+
+Adds:
+
+- `unverified`
+
+Refines:
+
+- `verified`
+
+### 3.4.1 (January 24, 2016)
+
+This includes various SVG viewport refinements.
+
+Refines:
+
+- `thumbs-down`
+- `logo-github`
+
+### 3.4.0 (January 22, 2016)
+
+Adds:
+
+- `verified`
+- `smiley`
+
+Removes:
+
+- `color-mode`
+
+Refines:
+
+- `primitive-dot`
+- `horizontal-rule`
+- `triangle-down`
+- `triangle-up`
+- `triangle-left`
+- `triangle-right`
+- `globe`
+- `flame`
+- `comment-discussion`
+
+### 3.3.0 (November 12, 2015)
+
+Adds:
+
+- `logo-gist`
+
+Resizes all our SVG to be 16x16 instead of 1024x1024
+
+### 3.2.0 (November 6, 2015)
+
+Adds:
+
+- `bold`
+- `text-size`
+- `italic`
+- `tasklist`
+
+It also normalizes some styling in:
+
+- `list-unordered`
+- `list-ordered`
+- `quote`
+- `mention`
+- `bookmark`
+- `threebars`
+
+Removes
+
+- `screen-normal`
+- `screen-full`
+
+
+### 3.1.0 (August 13, 2015)
+
+Adds
+
+- `shield`
+
+This thickens stroke widths slightly on the following icons:
+
+- `circle-slash`
+- `clock`
+- `cloud-upload`
+- `cloud-download`
+- `dashboard`
+- `info`
+- `issue-closed`
+- `issue`
+- `issue-reopened`
+- `history`
+- `question`
+- `search`
+
+Fills `comment-discussion`
+
+Thickens `x` to match `checkmark`
+
+### 3.0.1 (August 10, 2015)
+
+Some files were missing in `3.0.0`
+
+### 3.0.0 (August 10, 2015)
 
 Removes
 
