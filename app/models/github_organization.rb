@@ -138,7 +138,7 @@ class GitHubOrganization < GitHubResource
   #
   def github_org_hook_default_options
     {
-      events: %w(release),
+      events: %w(push release),
       active: true
     }
   end
