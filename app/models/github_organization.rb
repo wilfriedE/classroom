@@ -143,6 +143,8 @@ class GitHubOrganization < GitHubResource
     }
   end
 
+  # Internal
+  #
   def github_repo_default_options
     {
       has_issues:    true,
