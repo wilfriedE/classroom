@@ -1,34 +1,45 @@
 # frozen_string_literal: true
-class WebhookController < ApplicationController
+class WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token, :authenticate_user!,
                      :set_organization, :authorize_organization_access
 
   before_action :verify_organization_presence
   before_action :verify_payload_signature
   before_action :verify_sender_presence
+  before_action :verify_repo_presence
 
-  # rubocop:disable MethodLength
-  def events
-    case request.headers['X-GitHub-Event']
-    when 'ping'
-      update_org_hook_status
-    when 'release'
-      verify_repo_presence
-      handle_release_event
-    when 'push'
-      verify_repo_presence
-      handle_push_event
+  def create
+    if respond_to? event_handler
+      send event_handler
     else
-      render nothing: true, status: 204
+      not_found
     end
   end
-  # rubocop:enable MethodLength
+
+  def handle_ping
+    return if @organization.is_webhook_active?
+    @organization.update_attributes(is_webhook_active: true)
+  end
+
+  def handle_push
+    github_repo = student_assignment_repo.github_repository
+    github_repo.create_commit_status(params[:head_commit][:id], submission_status, context: 'classroom/push')
+  end
+
+  def handle_release
+    github_repo = student_assignment_repo.github_repository
+    sha = github_repo.ref("tags/#{params.dig(:release, :tag_name)}").object.sha
+    github_repo.create_commit_status(sha, 'success', context: 'classroom/assignment-submission')
+  end
 
   private
 
-  def verify_sender_presence
-    @sender ||= User.find_by(uid: params.dig(:sender, :id))
-    not_found unless @sender.present?
+  def event
+    request.headers['X-GitHub-Event']
+  end
+
+  def event_handler
+    @event_handler ||= "handle_#{event}".to_sym
   end
 
   def verify_organization_presence
@@ -45,14 +56,13 @@ class WebhookController < ApplicationController
     not_found unless payload_validated
   end
 
-  def update_org_hook_status
-    unless @organization.is_webhook_active?
-      @organization.update_attributes(is_webhook_active: true)
-    end
-    render nothing: true, status: 200
+  def verify_sender_presence
+    @sender ||= User.find_by(uid: params.dig(:sender, :id))
+    not_found unless @sender.present?
   end
 
   def verify_repo_presence
+    return true if event == 'ping'
     not_found unless student_assignment_repo.present?
   end
 
@@ -68,19 +78,6 @@ class WebhookController < ApplicationController
     else
       student_assignment_repo.group_assignment
     end
-  end
-
-  def handle_release_event
-    github_repo = student_assignment_repo.github_repository
-    sha = github_repo.ref("tags/#{params.dig(:release, :tag_name)}").object.sha
-    github_repo.create_commit_status(sha, 'success', context: 'classroom/assignment-submission')
-    render nothing: true, status: 200
-  end
-
-  def handle_push_event
-    github_repo = student_assignment_repo.github_repository
-    github_repo.create_commit_status(params[:head_commit][:id], submission_status, context: 'classroom/push')
-    render nothing: true, status: 200
   end
 
   def submission_status
