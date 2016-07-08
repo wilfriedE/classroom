@@ -80,7 +80,7 @@ class OrganizationsController < ApplicationController
   private
 
   def build_organization
-    OrganizationService.new(new_organization_params, current_user, webhook_events_url).build_organization
+    OrganizationService.new(new_organization_params, current_user, webhooks_url).build_organization
   end
 
   def authorize_organization_addition

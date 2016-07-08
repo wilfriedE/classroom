@@ -77,5 +77,5 @@ Rails.application.routes.draw do
     resources :groups,    only: [:show]
   end
 
-  post '/webhook/events', to: 'webhook#events'
+  resource :webhooks, only: :create, defaults: { formats: :json }
 end
