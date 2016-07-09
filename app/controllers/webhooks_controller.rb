@@ -22,8 +22,15 @@ class WebhooksController < ApplicationController
   end
 
   def handle_push
+    return unless params[:commits].present?
     github_repo = student_assignment_repo.github_repository
-    github_repo.create_commit_status(params[:head_commit][:id], submission_status, context: 'classroom/push')
+    now = Time.zone.now.to_i
+    params[:commits].each do |commit|
+      github_repo.create_commit_status(commit[:id],
+                                       push_status(now),
+                                       context: 'classroom/push',
+                                       description: now)
+    end
   end
 
   def handle_release
@@ -80,8 +87,8 @@ class WebhooksController < ApplicationController
     end
   end
 
-  def submission_status
+  def push_status(pushed_at)
     return 'success' unless assignment.due_date.present?
-    params[:repository][:pushed_at] <= assignment.due_date.to_i ? 'success' : 'failure'
+    pushed_at <= assignment.due_date ? 'success' : 'failure'
   end
 end
