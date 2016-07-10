@@ -24,19 +24,19 @@ class WebhooksController < ApplicationController
   def handle_push
     return unless params[:commits].present?
     github_repo = student_assignment_repo.github_repository
-    now = Time.zone.now.to_i
+    now = Time.zone.now
     params[:commits].each do |commit|
       github_repo.create_commit_status(commit[:id],
                                        push_status(now),
                                        context: 'classroom/push',
-                                       description: now)
+                                       description: '')
     end
   end
 
   def handle_release
     github_repo = student_assignment_repo.github_repository
     sha = github_repo.ref("tags/#{params.dig(:release, :tag_name)}").object.sha
-    github_repo.create_commit_status(sha, 'success', context: 'classroom/assignment-submission')
+    github_repo.create_commit_status(sha, push_status(commit_pushed_at), context: 'classroom/assignment-submission')
   end
 
   private
@@ -90,5 +90,10 @@ class WebhooksController < ApplicationController
   def push_status(pushed_at)
     return 'success' unless assignment.due_date.present?
     pushed_at <= assignment.due_date ? 'success' : 'failure'
+  end
+
+  def commit_pushed_at(sha)
+    combined_status = github_repo.status(sha)
+    combined_status.statuses.select { |status| status.context == 'classroom/push' }.first.updated_at
   end
 end

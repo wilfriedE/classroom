@@ -25,6 +25,12 @@ class GitHubRepository < GitHubResource
     end
   end
 
+  def status(ref)
+    GitHub::Errors.with_error_handling do
+      @client.combined_status(@id, ref)
+    end
+  end
+
   def self.present?(client, full_name)
     client.repository?(full_name)
   end
