@@ -14,14 +14,6 @@ RSpec.describe Group, type: :model do
       @group.try(:destroy)
     end
 
-    describe 'before_validation' do
-      describe '#create_github_team' do
-        it 'creates the team on GitHub' do
-          expect(WebMock).to have_requested(:post, github_url("/organizations/#{organization.github_id}/teams"))
-        end
-      end
-    end
-
     describe 'assocation callbacks' do
       let(:user) { classroom_student }
 

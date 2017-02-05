@@ -5,15 +5,10 @@ RSpec.describe Stafftools::GroupsController, type: :controller do
   let(:user)         { classroom_teacher }
   let(:organization) { classroom_org     }
 
-  let(:grouping) { create(:grouping, organization: organization)         }
-  let(:group)    { Group.create(grouping: grouping, title: 'The B Team') }
+  let(:group)        { create(:group) }
 
   before(:each) do
     sign_in_as(user)
-  end
-
-  after do
-    Group.destroy_all
   end
 
   describe 'GET #show', :vcr do
@@ -33,7 +28,7 @@ RSpec.describe Stafftools::GroupsController, type: :controller do
         expect(response).to have_http_status(:success)
       end
 
-      it 'sets the GroupAssignment' do
+      it 'sets the Group' do
         expect(assigns(:group).id).to eq(group.id)
       end
     end

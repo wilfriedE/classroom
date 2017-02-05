@@ -43,19 +43,18 @@ class GroupAssignmentInvitation < ApplicationRecord
 
   private
 
-  # Internal
-  #
   def group(repo_access, selected_group, selected_group_title)
     group = Group.joins(:repo_accesses).find_by(grouping: grouping, repo_accesses: { id: repo_access.id })
 
     return group if group.present?
     return selected_group if selected_group
 
-    Group.create(title: selected_group_title, grouping: grouping)
+    result = Group::Creator.perform(title: selected_group_title, grouping: grouping)
+    return result.group if result.success?
+
+    raise GitHub::Error, result.error
   end
 
-  # Internal
-  #
   def group_assignment_repo(invitees_group)
     group_assignment_params = { group_assignment: group_assignment, group: invitees_group }
     repo                    = GroupAssignmentRepo.find_by(group_assignment_params)

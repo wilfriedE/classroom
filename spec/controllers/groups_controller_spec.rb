@@ -5,8 +5,11 @@ RSpec.describe GroupsController, type: :controller do
   let(:organization)  { classroom_org     }
   let(:user)          { classroom_teacher }
 
-  let(:grouping) { create(:grouping, organization: organization)         }
-  let(:group)    { Group.create(title: 'The Group', grouping: grouping)  }
+  let(:grouping) { create(:grouping, organization: organization) }
+
+  let(:group) do
+    Group::Creator.perform(title: 'The Group', grouping: grouping).result.group
+  end
 
   before do
     sign_in_as(user)

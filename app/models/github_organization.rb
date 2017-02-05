@@ -53,7 +53,9 @@ class GitHubOrganization < GitHubResource
   end
 
   def delete_team(team_id)
-    @client.delete_team(team_id)
+    GitHub::Errors.with_error_handling { @client.delete_team(team_id) }
+  rescue GitHub::Error
+    false
   end
 
   def geo_pattern_data_uri
