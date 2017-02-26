@@ -21,7 +21,7 @@ module Stafftools
     private
 
     def set_organization
-      @organization = Organization.includes(:users).find_by!(id: params[:id])
+      @organization = Organization.includes(:users).find(params[:id])
     end
   end
 end

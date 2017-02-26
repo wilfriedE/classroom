@@ -1,4 +1,30 @@
 <li class="clearfix">
   <%= image_tag organization.github_organization.github_avatar_url(40), height: 20, width: 20, alt: "@#{organization.github_organization.login}" %>
   <strong><%= link_to organization.slug, stafftools_organization_path(organization.id) %></strong>
+  <a data-remodal-target="reset-and-remove-organization-<%= organization.id %>" class="btn btn-sm btn-danger right">Reset and remove this classroom</a>
+
+  <div class="remodal text-left" data-remodal-id="reset-and-remove-organization-<%= organization.id %>">
+    <button data-remodal-action="close" class="remodal-close"><%= octicon 'x' %></button>
+    <h2 class="remodal-header">Are you ABSOLUTELY sure?</h2>
+
+    <div class="remodal-warning">
+      Unexpected things will happen if you don't read this!
+    </div>
+
+    <div class="remodal-description">
+      <p>
+        This action <strong>CANNOT</strong> be undone.
+        Please note that resetting and removing this classroom will delete all repositories and teams under the <strong><%= organization.github_organization.login %></strong> account that were created by GitHub Classroom.
+      </p>
+    </div>
+
+    <%= form_for organization, html: { "data-name" => organization.github_organization.login, method: 'delete' } do |f| %>
+      <dl class="form js-normalize-submit">
+        <dt>Please type the name of the organization to confirm</dt>
+        <dd><input type="text" class="js-input-block" autofocus></dd>
+      </dl>
+
+      <%= f.submit 'Reset and remove this classroom', class: 'btn btn-danger btn-block js-submit', disabled: true %>
+    <% end %>
+  </div>
 </li>

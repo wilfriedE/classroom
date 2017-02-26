@@ -19,6 +19,11 @@ module Stafftools
       redirect_to stafftools_root_path
     end
 
+    def organization
+      organization = @user.organizations.find(params[:organization_id])
+      render partial: 'stafftools/users/organization', locals: { organization: organization }
+    end
+
     private
 
     def set_user
