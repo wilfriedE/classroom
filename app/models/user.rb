@@ -10,11 +10,8 @@ class User < ApplicationRecord
   has_and_belongs_to_many :organizations
 
   validates :last_active_at, presence: true
-
-  validates :token, presence: true, uniqueness: true
-
-  validates :uid, presence: true
-  validates :uid, uniqueness: true
+  validates :token,          presence: true, uniqueness: true
+  validates :uid,            presence: true, uniqueness: true
 
   before_save :ensure_no_token_scope_loss
 
@@ -27,10 +24,6 @@ class User < ApplicationRecord
 
   def authorized_access_token?
     github_user.authorized_access_token?
-  end
-
-  def self.create_from_auth_hash(hash)
-    create!(AuthHash.new(hash).user_info)
   end
 
   def self.find_by_auth_hash(hash)
