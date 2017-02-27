@@ -3,10 +3,11 @@ source 'https://rubygems.org'
 ruby '2.4.0'
 gem 'rails', '~> 5.0', '>= 5.0.1'
 
-gem 'airbrake'
 gem 'autoprefixer-rails'
 
 gem 'chewy', git: 'https://github.com/toptal/chewy.git', ref: '4ae2065e9204d39f8ab16df9e6b6b6b187220f87'
+
+gem 'dalli'
 
 gem 'faraday-http-cache'
 gem 'flipper'
@@ -56,6 +57,8 @@ gem 'uglifier', '>= 1.3.0'
 
 group :development do
   gem 'foreman'
+  gem 'guard',          require: false
+  gem 'guard-minitest', require: false
   gem 'web-console'
 end
 
@@ -63,18 +66,15 @@ group :development, :test do
   gem 'awesome_print', require: 'ap'
   gem 'bullet'
   gem 'dotenv-rails'
-  gem 'guard-rspec', require: false
-  gem 'rails-controller-testing'
-  gem 'rspec-rails'
-  gem 'rubocop', require: false
+  gem 'rubocop',   require: false
   gem 'scss_lint', require: false
   gem 'spring'
-  gem 'terminal-notifier-guard'
-  gem 'timecop', require: false
+  gem 'terminal-notifier-guard', require: false
+  gem 'timecop',                 require: false
 end
 
 group :production do
-  gem 'dalli'
+  gem 'airbrake', '~> 5.7'
   gem 'lograge', '~> 0.4.1'
   gem 'newrelic_rpm'
   gem 'pinglish'
@@ -84,10 +84,7 @@ group :production do
 end
 
 group :test do
-  gem 'database_cleaner'
-  gem 'factory_girl_rails'
-  gem 'faker'
   gem 'simplecov', require: false
-  gem 'vcr'
-  gem 'webmock'
+  gem 'vcr',       require: false
+  gem 'webmock',   require: false
 end
