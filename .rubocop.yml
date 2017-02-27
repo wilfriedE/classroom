@@ -34,3 +34,6 @@ Rails/Delegate:
 
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
