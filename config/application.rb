@@ -1,22 +1,7 @@
 # frozen_string_literal: true
 
-require File.expand_path('../boot', __FILE__)
-
-# From https://github.com/rails/rails/blob/master/railties/lib/rails/all.rb
-require 'rails'
-
-%w(
-  active_record/railtie
-  action_controller/railtie
-  action_view/railtie
-  active_job/railtie
-  sprockets/railtie
-).each do |railtie|
-  begin
-    require railtie
-  rescue LoadError # rubocop:disable Lint/HandleExceptions
-  end
-end
+require_relative 'boot'
+require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -48,11 +33,6 @@ module GitHubClassroom
     config.eager_load_paths += [
       'lib'
     ].map { |path| Rails.root.join(path).to_s }
-
-    # Configure the generators
-    config.generators do |g|
-      g.test_framework :rspec, fixture: false
-    end
 
     # GC Profiler for analytics
     GC::Profiler.enable
