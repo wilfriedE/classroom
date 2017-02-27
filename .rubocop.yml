@@ -27,7 +27,7 @@ Metrics/LineLength:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/**/*'
+    - 'test/**/*'
 
 Rails/Delegate:
   Enabled: false
