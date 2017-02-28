@@ -12,36 +12,43 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # https://gist.github.com/mattbrictson/72910465f36be8319cde
-  # Monkey patch the `test` DSL to enable VCR and configure a cassette named
-  # based on the test method. This means that a test written like this:
+  # Wrap every test in Chewy :bypass strategy
+  def self.test(test_name, &block)
+    return super if block.nil?
+
+    super(test_name) do
+      Chewy.strategy(:bypass) do
+        instance_eval(&block)
+      end
+    end
+  end
+
+  # Monkey patch the `before_setup` DSL to enable VCR and configure a cassette named
+  # based on the test method and grab anything in the setup block. This means that a test written like this:
   #
   # class OrderTest < ActiveSupport::TestCase
-  #   test "user can place order" do
+  #   test 'user can place an order' do
   #     ...
   #   end
   # end
   #
   # will automatically use VCR to intercept and record/play back any external
-  # HTTP requests using `cassettes/order_test/_user_can_place_order.json`.
-  #
-  # This also wraps all tests in the Chewy `:bypass` strategy.
-  #
-  # rubocop:disable MethodLength
-  def self.test(test_name, &block)
-    return super if block.nil?
+  # HTTP requests using `fixtures/cassettes/order_test/test_user_can_place_order.json`.
+  def before_setup
+    base_path = self.class.name.underscore
+    VCR.insert_cassette(base_path + '/' + name)
 
-    cassette = [name, test_name].map do |str|
-      str.underscore.gsub(/[^\w]+/i, '_')
-    end.join('/')
-
-    super(test_name) do
-      VCR.use_cassette(cassette) do
-        Chewy.strategy(:bypass) do
-          instance_eval(&block)
-        end
-      end
+    Chewy.strategy(:bypass) do
+      super
     end
+  end
+
+  def after_teardown
+    Chewy.strategy(:bypass) do
+      super
+    end
+
+    VCR.eject_cassette
   end
 end
 

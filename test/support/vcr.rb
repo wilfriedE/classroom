@@ -44,6 +44,10 @@ VCR.configure do |c|
   # A GitHub Organization/Classroom that belongs to the teacher
   # listed above.
   c.filter_sensitive_data('<TEST_CLASSROOM_GITHUB_ID>') do
-    ENV.fetch('TEST_CLASSROOM_OWNER_ORGANIZATION_GITHUB_ID') { 3 }
+    ENV.fetch('TEST_CLASSROOM_ORGANIZATION_GITHUB_ID') { 3 }
+  end
+
+  c.filter_sensitive_data('<TEST_CLASSROOM_GITHUB_LOGIN>') do
+    ENV.fetch('TEST_CLASSROOM_ORGANIZATION_GITHUB_LOGIN') { 'the-classroom' }
   end
 end
