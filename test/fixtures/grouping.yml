@@ -1,0 +1,9 @@
+spring_semester:
+  title: 'Spring Semester 2017'
+  slug: 'spring-semester-2017'
+  organization: classroom
+
+fall_semester:
+  title: 'Fall Semester 2017'
+  slug: 'fall-semester-2017'
+  organization: classroom

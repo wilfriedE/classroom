@@ -1,0 +1,27 @@
+public_assignment:
+  title: 'Intro to Programming Languages'
+  creator: teacher
+  organization: classroom
+  slug: 'intro-to-programming-languages'
+
+public_assignment_with_starter_code:
+  title: 'Algorithms'
+  creator: teacher
+  organization: classroom
+  starter_code_repo_id: 1062897 # https://github.com/github/gitignore
+  slug: 'algorithms'
+
+private_assignment:
+  title: 'Operating Systems'
+  creator: teacher
+  organization: classroom
+  slug: 'operating-systems'
+  public_repo: false
+
+private_assignment_with_starter_code:
+  title: 'Introduction to Databases'
+  creator: teacher
+  organization: classroom
+  starter_code_repo_id: 1062897 # https://github.com/github/gitignore
+  slug: 'introduction-to-databases'
+  public_repo: false

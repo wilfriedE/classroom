@@ -1,0 +1,6 @@
+classroom:
+  github_id: <%= ENV['TEST_CLASSROOM_GITHUB_ID'] %>
+  title: 'The Classroom'
+  slug: <%= "#{ENV['TEST_CLASSROOM_GITHUB_ID']} #{ENV['TEST_CLASSROOM_GITHUB_LOGIN']}".parameterize %>
+  is_webhook_active: false
+  users: [teacher]

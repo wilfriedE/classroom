@@ -1,0 +1,25 @@
+public_group_assignment:
+  title: 'Capstone'
+  creator: teacher
+  organization: classroom
+  slug: 'capstone'
+
+public_group_assignment_with_starter_code:
+  title: 'Mobile Application Development'
+  creator: teacher
+  organization: classroom
+  starter_code_repo_id: 1062897 # https://github.com/github/gitignore
+  slug: 'mobile-application-development'
+
+private_group_assignment:
+  title: 'Web Applications'
+  creator: teacher
+  organization: classroom
+  slug: 'web-applications'
+
+private_group_assignment_with_starter_code:
+  title: 'Introduction to C'
+  creator: teacher
+  organization: classroom
+  starter_code_repo_id: 1062897 # https://github.com/github/gitignore
+  slug: 'introduction-to-c'
