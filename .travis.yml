@@ -12,7 +12,7 @@ before_script:
   - psql -c 'create database classroom_test;' -U postgres
 
 script:
-  - ./script/cibuild
+  - bundle exec rails test
 
 bundler_args: --without development production --deployment --jobs=3 --retry=3
 
