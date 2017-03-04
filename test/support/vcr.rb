@@ -49,6 +49,10 @@ VCR.configure do |c|
   c.filter_sensitive_data('<TEST_CLASSROOM_GITHUB_LOGIN>') do
     ENV.fetch('TEST_CLASSROOM_GITHUB_LOGIN') { 'the-classroom' }
   end
+
+  c.filter_sensitive_data('<WEBHOOK_SECRET>') do
+    ENV.fetch('WEBHOOK_SECRET') { 'the-secret' }
+  end
 end
 
 def oauth_client

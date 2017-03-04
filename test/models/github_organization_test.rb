@@ -121,7 +121,7 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
       name: 'web',
       config: {
         content_type: 'json',
-        secret: '453977a8e36e4f511251c70be990f920d77c118298a39e614ac6adbac33740a2054a48c8694a957d3b92ce9734fe7e1131417e2729831d12d36563a42fe46e5d' # rubocop:disable LineLength
+        secret: Rails.application.secrets.webhook_secret
       },
       events: ['*'],
       active: true
