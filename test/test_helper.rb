@@ -37,17 +37,13 @@ class ActiveSupport::TestCase
   def before_setup
     base_path = self.class.name.underscore
     VCR.insert_cassette(base_path + '/' + name)
+    Chewy.strategy(:bypass)
 
-    Chewy.strategy(:bypass) do
-      super
-    end
+    super
   end
 
   def after_teardown
-    Chewy.strategy(:bypass) do
-      super
-    end
-
+    super
     VCR.eject_cassette
   end
 end
