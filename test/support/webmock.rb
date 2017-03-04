@@ -12,3 +12,16 @@ def github_url(url)
 
   uri.to_s
 end
+
+# Public: Stub a GitHub http request.
+#
+# Examples:
+#
+#   stub_github_get("/users/tarebyte")
+#
+# Returns nothing.
+ActionDispatch::Routing::HTTP_METHODS.map do |http_method|
+  define_method("stub_github_#{http_method}") do |url|
+    stub_request(http_method, github_url(url))
+  end
+end

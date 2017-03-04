@@ -8,6 +8,10 @@ class NullGitHubUser < NullGitHubResource
     'https://github.com/ghost'
   end
 
+  def id
+    10_137
+  end
+
   def login
     'ghost'
   end

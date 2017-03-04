@@ -9,9 +9,9 @@ class RepoAccessTest < ActiveSupport::TestCase
     @repo_access = RepoAccess.create(user: @student, organization: @organization)
   end
 
-  teardown do
-    RepoAccess.destroy_all
-  end
+  # This is needed until we remove ActiveRecord callbacks
+  # from the #destroy action.
+  teardown { RepoAccess.destroy_all }
 
   test '#create invites the user as a member of the organization' do
     url = github_url("/orgs/#{@organization.github_organization.login}/memberships/#{@student.github_user.login}")

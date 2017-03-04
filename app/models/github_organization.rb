@@ -66,10 +66,14 @@ class GitHubOrganization < GitHubResource
 
   def organization_members(options = {})
     GitHub::Errors.with_error_handling { @client.organization_members(@id, options) }
+  rescue GitHub::Error
+    []
   end
 
   def organization_member?(user_github_login)
     GitHub::Errors.with_error_handling { @client.organization_member?(@id, user_github_login) }
+  rescue GitHub::Error
+    false
   end
 
   def plan

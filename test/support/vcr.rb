@@ -51,3 +51,8 @@ VCR.configure do |c|
     ENV.fetch('TEST_CLASSROOM_ORGANIZATION_GITHUB_LOGIN') { 'the-classroom' }
   end
 end
+
+def oauth_client
+  return @oauth_client if defined?(@oauth_client)
+  @oauth_client = Octokit::Client.new(access_token: ENV.fetch('TEST_CLASSROOM_TEACHER_GITHUB_TOKEN'))
+end

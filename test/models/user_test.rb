@@ -7,20 +7,34 @@ class UserTest < ActiveSupport::TestCase
     @user = user(:teacher)
   end
 
-  # Presence
-  %w(last_active_at token uid).each do |column|
-    test "#{column} must be present" do
-      @user.send("#{column}=", nil)
-      refute @user.valid?
-    end
+  test 'last_active_at must be present' do
+    @user.last_active_at = nil
+    refute @user.valid?
+    assert @user.errors.include?(:last_active_at)
   end
 
-  # Uniqueness
-  %w(token uid).each do |column|
-    test "#{column} must be unique" do
-      @user.send("#{column}=", user(:student).send(column))
-      refute @user.valid?
-    end
+  test 'token must be present' do
+    @user.token = nil
+    refute @user.valid?
+    assert @user.errors.include?(:token)
+  end
+
+  test 'token must be unique' do
+    @user.token = user(:student).token
+    refute @user.valid?
+    assert @user.errors.include?(:token)
+  end
+
+  test 'uid must be present' do
+    @user.uid = nil
+    refute @user.valid?
+    assert @user.errors.include?(:uid)
+  end
+
+  test 'uid must be unique' do
+    @user.uid = user(:student).uid
+    refute @user.valid?
+    assert @user.errors.include?(:uid)
   end
 
   test '#assign_from_auth_hash properly updates a users attributes' do

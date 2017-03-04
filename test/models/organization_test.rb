@@ -11,29 +11,28 @@ class OrganizationTest < ActiveSupport::TestCase
     refute_includes Organization.all, @organization
   end
 
-  # Presence
-  %w(github_id title).each do |column|
-    test "#{column} must be present" do
-      @organization.send("#{column}=", nil)
-      refute @organization.valid?
-    end
+  test 'title must be present' do
+    @organization.title = nil
+    refute @organization.valid?
+    assert @organization.errors.include?(:title)
   end
 
-  # Uniqueness
-  test 'has a unique github_id' do
+  test 'title cannot be longer than 60 characters' do
+    @organization.title = 'aa' * 60
+    refute @organization.valid?
+    assert @organization.errors.include?(:title)
+  end
+
+  test 'github_id must be present' do
+    @organization.github_id = nil
+    refute @organization.valid?
+    assert @organization.errors.include?(:github_id)
+  end
+
+  test 'github_id must be unique' do
     other_organization = Organization.create(
       github_id: @organization.github_id,
       title: 'Classroom for geniuses'
-    )
-
-    refute other_organization.valid?
-  end
-
-  test 'has a unique slug' do
-    # The slug is created with the id and the title
-    other_organization = Organization.create(
-      github_id: @organization.github_id,
-      title: @organization.title
     )
 
     refute other_organization.valid?

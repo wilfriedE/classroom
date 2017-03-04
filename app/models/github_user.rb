@@ -29,6 +29,8 @@ class GitHubUser < GitHubResource
     GitHub::Errors.with_error_handling do
       @client.organization_memberships(state: 'active', headers: GitHub::APIHeaders.no_cache_no_store)
     end
+  rescue GitHub::Errors
+    []
   end
 
   private

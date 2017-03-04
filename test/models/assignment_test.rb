@@ -11,12 +11,16 @@ class AssignmentTest < ActiveSupport::TestCase
     refute_includes Assignment.all, @assignment
   end
 
-  # Presence
-  %(title slug).each do |column|
-    test "#{column} must be present" do
-      @assignment.send("#{column}=", nil)
-      refute @assignment.valid?
-    end
+  test '#title must be present' do
+    @assignment.title = nil
+    refute @assignment.valid?
+    assert @assignment.errors.include?(:title)
+  end
+
+  test '#slug must be present' do
+    @assignment.slug = nil
+    refute @assignment.valid?
+    assert @assignment.errors.include?(:slug)
   end
 
   test 'slug cannot be longer that 60 characters' do
