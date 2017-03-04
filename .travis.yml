@@ -24,10 +24,16 @@ services:
 
 env:
   global:
-    - GITHUB_CLIENT_ID=client_id
-    - GITHUB_CLIENT_SECRET=client_secret
-    - WEBHOOK_SECRET=abcdefg
     - CLASSROOM_WEBHOOK_URL_PREFIX="https://example.com/github/hooks"
+    - GITHUB_CLIENT_ID="client_id"
+    - GITHUB_CLIENT_SECRET="client_secret"
+    - TEST_CLASSROOM_TEACHER_GITHUB_ID=1
+    - TEST_CLASSROOM_TEACHER_GITHUB_TOKEN=2
+    - TEST_CLASSROOM_STUDENT_GITHUB_ID=3
+    - TEST_CLASSROOM_STUDENT_GITHUB_TOKEN=4
+    - TEST_CLASSROOM_ORGANIZATION_GITHUB_ID=5
+    - TEST_CLASSROOM_ORGANIZATION_GITHUB_LOGIN="the-classroom"
+    - WEBHOOK_SECRET="abcdefg"
 
 notifications:
   email: false
