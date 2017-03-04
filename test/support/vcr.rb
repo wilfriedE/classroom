@@ -4,7 +4,6 @@ require 'vcr'
 VCR.configure do |c|
   c.hook_into :webmock
   c.cassette_library_dir = 'test/fixtures/cassettes'
-  c.ignore_hosts '127.0.0.1', 'localhost'
 
   c.default_cassette_options = {
     serialize_with: :json,
