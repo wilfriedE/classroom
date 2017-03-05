@@ -34,8 +34,7 @@ class RepoAccess < ApplicationRecord
   end
 
   def accept_membership_to_github_organization
-    github_organization = GitHubOrganization.new(user.github_client, organization.github_id)
-    github_organization.accept_membership(user.github_user.login)
+    user.github_user.accept_membership_to(organization.github_organization)
   rescue GitHub::Error
     silently_remove_organization_member
     raise GitHub::Error, 'Failed to add user to the Classroom, please try again'

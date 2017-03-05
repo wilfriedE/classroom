@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 class GitHubOrganization < GitHubResource
-  def accept_membership(user_github_login)
-    return if organization_member?(user_github_login)
-
-    GitHub::Errors.with_error_handling do
-      @client.update_organization_membership(login, state: 'active')
-    end
-  end
-
   def add_membership(user_github_login)
     return if organization_member?(user_github_login)
 

@@ -4,13 +4,12 @@ require 'test_helper'
 class GitHubOrganizationTest < ActiveSupport::TestCase
   setup do
     Octokit.reset!
-    @repo_name = 'test-repository'
-    @organization = organization(:classroom)
-    @github_organization = @organization.github_organization
+    @repo_name           = 'test-repository'
+    @github_organization = organization(:classroom).github_organization
   end
 
   test 'responds to all of the GitHub attributes with the proper GitHub information' do
-    gh_organization = oauth_client.organization(@organization.github_id)
+    gh_organization = oauth_client.organization(@github_organization.id)
 
     @github_organization.attributes.each do |attribute, value|
       next if attribute == :id || attribute == :client || attribute == :access_token
@@ -23,7 +22,7 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
       end
     end
 
-    assert_requested :get, github_url("/organizations/#{@organization.github_id}"), times: 2
+    assert_requested :get, github_url("/organizations/#{@github_organization.id}"), times: 2
   end
 
   test 'responds to all *_no_cache methods' do
@@ -33,21 +32,52 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
     end
   end
 
-  test '#accept_membership' do
+  test '#add_membership creates a pending membership for a user' do
+    student         = user(:student)
+    memberships_url = "/orgs/#{@github_organization.login}/memberships/#{student.github_user.login}"
+
+    stub_github_put(memberships_url)
+    @github_organization.add_membership(student.github_user.login)
+
+    assert_requested :put, github_url(memberships_url)
   end
 
-  test '#add_membership' do
+  test '#add_membership will not add an existing organization member' do
+    teacher         = user(:teacher)
+    memberships_url = "/organizations/#{@github_organization.login}/memberships/#{teacher.github_user.login}"
+
+    @github_organization.add_membership(teacher.github_user.login)
+
+    refute_requested :put, github_url(memberships_url)
   end
 
   test '#admin?' do
+    membership_url = "/orgs/#{@github_organization.login}/memberships"
+
     teacher = user(:teacher)
     assert @github_organization.admin?(teacher.github_user.login)
+    assert_requested :get, github_url("#{membership_url}/#{teacher.github_user.login}")
 
     student = user(:student)
     refute @github_organization.admin?(student.github_user.login)
+    assert_requested :get, github_url("#{membership_url}/#{student.github_user.login}")
   end
 
   test '#create_repository -> #delete_repository' do
+    assignment_name = 'new-assignment'
+
+    body = {
+      has_issues:    true,
+      has_wiki:      true,
+      has_downloads: true,
+      name:          assignment_name
+    }.to_json
+
+    repository = @github_organization.create_repository(assignment_name)
+    assert_requested :post, github_url("/organizations/#{@github_organization.id}/repos"), body: body
+
+    @github_organization.delete_repository(repository.id)
+    assert_requested :delete, github_url("/repositories/#{repository.id}")
   end
 
   test '#create_team -> #delete_team' do
@@ -92,7 +122,7 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
 
   test '#remove_organization_member removes the user from the organization' do
     student = user(:student)
-    url     = "/organizations/#{@organization.github_id}/members/#{student.github_user.login}"
+    url     = "/organizations/#{@github_organization.id}/members/#{student.github_user.login}"
 
     stub_github_delete(url)
     @github_organization.remove_organization_member(student.github_user.login)
@@ -102,7 +132,7 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
 
   test '#remove_organization_member does not remove an admin from the organization' do
     teacher = user(:teacher)
-    url     = "/organizations/#{@organization.github_id}/members/#{teacher.github_user.login}"
+    url     = "/organizations/#{@github_organization.id}/members/#{teacher.github_user.login}"
 
     stub_github_delete(url)
     @github_organization.remove_organization_member(teacher.github_user.login)
@@ -115,7 +145,7 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
     assert_equal url, @github_organization.team_invitations_url
   end
 
-  test '#create_organization_webhook' do
+  test '#create_organization_webhook creates an active webhook that catches all events' do
     url = "/organizations/#{@github_organization.id}/hooks"
     body = {
       name: 'web',
@@ -144,5 +174,12 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
   end
 
   test '#update_default_repository_permission!' do
+    url = "/organizations/#{@github_organization.id}"
+    body = { default_repository_permission: 'read' }.to_json
+
+    stub_github_patch(url)
+    @github_organization.update_default_repository_permission!('read')
+
+    assert_requested :patch, github_url(url), body: body
   end
 end

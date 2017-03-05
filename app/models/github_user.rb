@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 class GitHubUser < GitHubResource
+  def accept_membership_to(github_organization)
+    return if organization_member?(github_organization)
+
+    GitHub::Errors.with_error_handling do
+      @client.update_organization_membership(github_organization.login, state: 'active')
+    end
+  end
+
   # Public: Accept a Repository Invitation on GitHub.
   #
   # Returns True or False.
@@ -31,6 +39,12 @@ class GitHubUser < GitHubResource
     end
   rescue GitHub::Errors
     []
+  end
+
+  def organization_member?(github_organization)
+    GitHub::Errors.with_error_handling { @client.organization_member?(github_organization.id, login) }
+  rescue GitHub::Error
+    false
   end
 
   private

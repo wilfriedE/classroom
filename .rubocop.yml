@@ -21,13 +21,11 @@ Documentation:
 
 Metrics/ClassLength:
   Max: 120
+  Exclude:
+    - 'test/**/*_test.rb'
 
 Metrics/LineLength:
   Max: 120
-
-Metrics/BlockLength:
-  Exclude:
-    - 'test/**/*'
 
 Rails/Delegate:
   Enabled: false
