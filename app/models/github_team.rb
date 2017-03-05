@@ -13,6 +13,9 @@ class GitHubTeam < GitHubResource
   end
 
   def add_team_repository(full_name, options = {})
+    # set default permission in case we haven't specified yet.
+    options = options.merge(permission: 'push') unless options.key?(:permission)
+
     GitHub::Errors.with_error_handling do
       unless @client.add_team_repository(@id, full_name, options)
         raise GitHub::Error, 'Could not add team to the GitHub repository'

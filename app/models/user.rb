@@ -17,6 +17,8 @@ class User < ApplicationRecord
 
   before_validation(on: :create) { ensure_last_active_at_presence }
 
+  alias_attribute :staff?, :site_admin
+
   def assign_from_auth_hash(hash)
     user_attributes = AuthHash.new(hash).user_info
     update_attributes(user_attributes)
@@ -41,10 +43,6 @@ class User < ApplicationRecord
 
   def github_client_scopes
     GitHub::Token.scopes(token, github_client)
-  end
-
-  def staff?
-    site_admin
   end
 
   def identifier(type)

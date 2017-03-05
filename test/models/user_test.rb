@@ -39,12 +39,12 @@ class UserTest < ActiveSupport::TestCase
 
   test '#assign_from_auth_hash properly updates a users attributes' do
     @user.assign_from_auth_hash(@github_omniauth_hash)
-    @user.save!
 
     assert @user.valid?
-    assert_equal @github_omniauth_hash.uid, @user.uid
+
+    assert_equal @github_omniauth_hash.uid,                       @user.uid
     assert_equal @github_omniauth_hash.extra.raw_info.site_admin, @user.site_admin
-    refute_equal @github_omniauth_hash.credentials.token, @user.token
+    refute_equal @github_omniauth_hash.credentials.token,         @user.token
   end
 
   test 'does not allow the deprecation of token scope on update' do

@@ -18,37 +18,46 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Wrap every test in Chewy :bypass strategy
   def self.test(test_name, &block)
     return super if block.nil?
 
     super(test_name) do
+      # Wrap every test in Chewy :bypass strategy
       Chewy.strategy(:bypass) do
         instance_eval(&block)
       end
     end
   end
 
-  # Monkey patch the `before_setup` DSL to enable VCR and configure a cassette named
-  # based on the test method and grab anything in the setup block. This means that a test written like this:
-  #
-  # class OrderTest < ActiveSupport::TestCase
-  #   test 'user can place an order' do
-  #     ...
-  #   end
-  # end
-  #
-  # will automatically use VCR to intercept and record/play back any external
-  # HTTP requests using `fixtures/cassettes/order_test/test_user_can_place_order.json`.
   def before_setup
+    # Set the OmniAuth mock config back to it's original state
+    # between tests to avoid pollution.
+    reset_omniauth
+
+    # Wrap every action in setup to use the Chewy :bypass strategy.
     Chewy.strategy(:bypass) do
+      # Enable VCR and configure a cassette named
+      # based on the test method and grab anything in the setup block.
+      #
+      # This means that a test written like this:
+      #
+      # class OrderTest < ActiveSupport::TestCase
+      #   test 'user can place an order' do
+      #     ...
+      #   end
+      # end
+      #
+      # will automatically use VCR to intercept and record/play back any external
+      # HTTP requests using `fixtures/cassettes/order_test/test_user_can_place_order.json`.
       base_path = self.class.name.underscore
       VCR.insert_cassette(base_path + '/' + name)
+
       super
     end
   end
 
   def after_teardown
+    # Wrap every action in teardown to use the Chewy :bypass strategy.
     Chewy.strategy(:bypass) do
       super
       VCR.eject_cassette

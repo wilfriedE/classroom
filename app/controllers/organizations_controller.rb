@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
   skip_before_action :set_organization, :authorize_organization_access, only: [:index, :new, :create]
 
   def index
-    @organizations = current_user.organizations.includes(:users).page(params[:page])
+    @organizations = current_user.organizations.page(params[:page])
   end
 
   def new
@@ -110,7 +110,7 @@ class OrganizationsController < ApplicationController
   def set_users_github_organizations
     @users_github_organizations = current_user.github_user.organization_memberships.map do |membership|
       {
-        classroom: Organization.unscoped.includes(:users).find_by(github_id: membership.organization.id),
+        classroom: Organization.unscoped.find_by(github_id: membership.organization.id),
         github_id: membership.organization.id,
         login:     membership.organization.login,
         role:      membership.role
