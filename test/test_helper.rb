@@ -49,10 +49,8 @@ class ActiveSupport::TestCase
   end
 
   def after_teardown
-    Chewy.strategy(:bypass) do
-      super
-      VCR.eject_cassette
-    end
+    VCR.eject_cassette
+    super
   end
 end
 
