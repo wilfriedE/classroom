@@ -4,7 +4,13 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
 Dir[Rails.root.join('test', 'support', '**', '*.rb')].each { |f| require f }
+
+# Checks for pending migrations before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 class ActiveSupport::TestCase
   include Chewy::Minitest::Helpers
@@ -35,16 +41,18 @@ class ActiveSupport::TestCase
   # will automatically use VCR to intercept and record/play back any external
   # HTTP requests using `fixtures/cassettes/order_test/test_user_can_place_order.json`.
   def before_setup
-    base_path = self.class.name.underscore
-    VCR.insert_cassette(base_path + '/' + name)
-    Chewy.strategy(:bypass)
-
-    super
+    Chewy.strategy(:bypass) do
+      base_path = self.class.name.underscore
+      VCR.insert_cassette(base_path + '/' + name)
+      super
+    end
   end
 
   def after_teardown
-    super
-    VCR.eject_cassette
+    Chewy.strategy(:bypass) do
+      super
+      VCR.eject_cassette
+    end
   end
 end
 
