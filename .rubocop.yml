@@ -22,16 +22,21 @@ Documentation:
 Metrics/ClassLength:
   Max: 120
   Exclude:
-    - 'test/**/*_test.rb'
+    - 'test/**/*.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*.rb'
 
 Metrics/LineLength:
   Max: 120
 
-Rails/Delegate:
-  Enabled: false
-
 Rails/HasAndBelongsToMany:
   Enabled: false
+
+Rails/DynamicFindBy:
+  Whitelist:
+    - find_by_auth_hash
 
 Style/ClassAndModuleChildren:
   Enabled: false

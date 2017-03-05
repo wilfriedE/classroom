@@ -61,7 +61,7 @@ class UserTest < ActiveSupport::TestCase
   test '#find_by_auth_hash returns the proper user' do
     @github_omniauth_hash.uid = @user.uid
 
-    found_user = User.find_by_auth_hash(@github_omniauth_hash) # rubocop:disable DynamicFindBy
+    found_user = User.find_by_auth_hash(@github_omniauth_hash)
     assert_equal @user, found_user
   end
 
