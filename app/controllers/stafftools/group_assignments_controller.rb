@@ -1,14 +1,12 @@
 # frozen_string_literal: true
-module Stafftools
-  class GroupAssignmentsController < StafftoolsController
-    before_action :set_group_assignment
+class Stafftools::GroupAssignmentsController < StafftoolsController
+  before_action :set_group_assignment
 
-    def show; end
+  def show; end
 
-    private
+  private
 
-    def set_group_assignment
-      @group_assignment = GroupAssignment.find_by!(id: params[:id])
-    end
+  def set_group_assignment
+    @group_assignment = GroupAssignment.find_by!(id: params[:id])
   end
 end

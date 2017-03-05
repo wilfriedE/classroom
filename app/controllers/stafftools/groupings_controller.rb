@@ -1,14 +1,12 @@
 # frozen_string_literal: true
-module Stafftools
-  class GroupingsController < StafftoolsController
-    before_action :set_grouping
+class Stafftools::GroupingsController < StafftoolsController
+  before_action :set_grouping
 
-    def show; end
+  def show; end
 
-    private
+  private
 
-    def set_grouping
-      @grouping = Grouping.find_by!(id: params[:id])
-    end
+  def set_grouping
+    @grouping = Grouping.find_by!(id: params[:id])
   end
 end

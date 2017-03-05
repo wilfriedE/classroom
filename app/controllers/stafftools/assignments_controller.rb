@@ -1,14 +1,12 @@
 # frozen_string_literal: true
-module Stafftools
-  class AssignmentsController < StafftoolsController
-    before_action :set_assignment
+class Stafftools::AssignmentsController < StafftoolsController
+  before_action :set_assignment
 
-    def show; end
+  def show; end
 
-    private
+  private
 
-    def set_assignment
-      @assignment = Assignment.find_by!(id: params[:id])
-    end
+  def set_assignment
+    @assignment = Assignment.find_by!(id: params[:id])
   end
 end
