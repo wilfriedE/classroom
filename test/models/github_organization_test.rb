@@ -117,7 +117,12 @@ class GitHubOrganizationTest < ActiveSupport::TestCase
     refute @github_organization.organization_member?(student.github_user.login)
   end
 
-  test '#plan' do
+  test '#plan returns the number of owned private repos and the number available' do
+    assert plan = @github_organization.plan
+    assert_kind_of Hash, plan
+
+    assert plan.key?(:owned_private_repos)
+    assert plan.key?(:private_repos)
   end
 
   test '#remove_organization_member removes the user from the organization' do
