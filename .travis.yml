@@ -13,7 +13,8 @@ before_script:
   - sleep 10 # https://docs.travis-ci.com/user/database-setup/#ElasticSearch
 
 script:
-  - bundle exec rails test
+  - ./bin/rails test
+  - ./bin/rubocop
 
 bundler_args: --without development production --deployment --jobs=3 --retry=3
 
