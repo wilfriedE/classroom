@@ -11,11 +11,8 @@ class RepoAccess < ApplicationRecord
 
   has_and_belongs_to_many :groups
 
-  validates :organization, presence: true
-  validates :organization, uniqueness: { scope: :user }
-
-  validates :user, presence: true
-  validates :user, uniqueness: { scope: :organization }
+  validates :organization, uniqueness: { scope: :user         }
+  validates :user,         uniqueness: { scope: :organization }
 
   before_validation(on: :create) do
     if organization
@@ -47,7 +44,6 @@ class RepoAccess < ApplicationRecord
 
   def silently_remove_organization_member
     remove_organization_member
-    true # Destroy ActiveRecord object even if we fail to delete the repository
   end
 
   def title

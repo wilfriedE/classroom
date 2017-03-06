@@ -16,12 +16,6 @@ class GroupAssignment < ApplicationRecord
   belongs_to :organization
   belongs_to :student_identifier_type
 
-  validates :creator, presence: true
-
-  validates :grouping, presence: true
-
-  validates :organization, presence: true
-
   validates :title, presence: true
   validates :title, length: { maximum: 60 }
   validates :title, uniqueness: { scope: :organization_id }

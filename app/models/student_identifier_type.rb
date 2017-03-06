@@ -6,6 +6,4 @@ class StudentIdentifierType < ApplicationRecord
   has_many :student_identifiers
 
   enum content_type: [:text, :number, :email]
-
-  validates :organization, presence: true
 end

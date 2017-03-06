@@ -18,7 +18,6 @@ class GroupAssignmentRepo < ApplicationRecord
 
   validates :group_assignment, presence: true
 
-  validates :group, presence: true
   validates :group, uniqueness: { scope: :group_assignment }
 
   before_validation(on: :create) do

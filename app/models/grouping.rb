@@ -9,8 +9,6 @@ class Grouping < ApplicationRecord
 
   belongs_to :organization
 
-  validates :organization, presence: true
-
   validates :title, presence: true
   validates :title, uniqueness: { scope: :organization }
 

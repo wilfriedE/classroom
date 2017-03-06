@@ -4,6 +4,8 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+require 'timecop'
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join('test', 'support', '**', '*.rb')].each { |f| require f }
@@ -14,6 +16,7 @@ ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 class ActiveSupport::TestCase
   include Chewy::Minitest::Helpers
+  include FixturesHelper
 
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
@@ -66,5 +69,6 @@ class ActiveSupport::TestCase
 end
 
 class ActionDispatch::IntegrationTest
+  include ActiveJob::TestHelper
   include SignInHelper
 end

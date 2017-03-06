@@ -5,10 +5,8 @@ class AssignmentRepo < ApplicationRecord
   has_one :organization, -> { unscope(where: :deleted_at) }, through: :assignment
 
   belongs_to :assignment
-  belongs_to :repo_access
-  belongs_to :user
-
-  validates :assignment, presence: true
+  belongs_to :repo_access, optional: true
+  belongs_to :user,        optional: true
 
   validates :github_repo_id, presence:   true
   validates :github_repo_id, uniqueness: true

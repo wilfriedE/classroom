@@ -14,6 +14,5 @@ module GitHubTeamable
 
   def silently_destroy_github_team
     destroy_github_team
-    true # Destroy ActiveRecord object even if we fail to delete the team
   end
 end
