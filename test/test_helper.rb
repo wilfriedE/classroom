@@ -15,6 +15,7 @@ Dir[Rails.root.join('test', 'support', '**', '*.rb')].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 class ActiveSupport::TestCase
+  include ActiveModelAssertions
   include Chewy::Minitest::Helpers
   include FixturesHelper
 

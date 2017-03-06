@@ -9,38 +9,33 @@ class UserTest < ActiveSupport::TestCase
 
   test 'last_active_at must be present' do
     @user.last_active_at = nil
-    refute @user.valid?
-    assert @user.errors.include?(:last_active_at)
+    refute_valid @user
   end
 
   test 'token must be present' do
     @user.token = nil
-    refute @user.valid?
-    assert @user.errors.include?(:token)
+    refute_valid @user
   end
 
   test 'token must be unique' do
     @user.token = user(:student).token
-    refute @user.valid?
-    assert @user.errors.include?(:token)
+    refute_valid @user
   end
 
   test 'uid must be present' do
     @user.uid = nil
-    refute @user.valid?
-    assert @user.errors.include?(:uid)
+    refute_valid @user
   end
 
   test 'uid must be unique' do
     @user.uid = user(:student).uid
-    refute @user.valid?
-    assert @user.errors.include?(:uid)
+    refute_valid @user
   end
 
   test '#assign_from_auth_hash properly updates a users attributes' do
     @user.assign_from_auth_hash(@github_omniauth_hash)
 
-    assert @user.valid?
+    assert_valid @user
 
     assert_equal @github_omniauth_hash.uid,                       @user.uid
     assert_equal @github_omniauth_hash.extra.raw_info.site_admin, @user.site_admin
@@ -55,7 +50,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test '#authorized_access_token returns if the token is authorized on GitHub' do
-    assert @user.authorized_access_token?
+    assert_predicate @user, :authorized_access_token?
   end
 
   test '#find_by_auth_hash returns the proper user' do
@@ -88,12 +83,12 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test '#staff? responds with site_admin attribute' do
-    refute @user.site_admin
-    refute @user.staff?
+    refute_predicate @user, :site_admin
+    refute_predicate @user, :staff?
 
     @user.update_attributes(site_admin: true)
 
-    assert @user.site_admin
-    assert @user.staff?
+    assert_predicate @user, :site_admin
+    assert_predicate @user, :staff?
   end
 end
