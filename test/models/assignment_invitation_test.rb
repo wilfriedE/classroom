@@ -22,7 +22,7 @@ class AssignmentInvitationTest < ActiveSupport::TestCase
 
     assert_instance_of AssignmentRepo::Creator::Result, result
 
-    assert result.success?
+    assert_predicate result, :success?
     assert_equal student, result.assignment_repo.user
   end
 

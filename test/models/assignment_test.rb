@@ -13,34 +13,32 @@ class AssignmentTest < ActiveSupport::TestCase
 
   test '#title must be present' do
     @assignment.title = nil
-    refute @assignment.valid?
-    assert @assignment.errors.include?(:title)
+    refute_valid @assignment
   end
 
   test '#slug must be present' do
     @assignment.slug = nil
-    refute @assignment.valid?
-    assert @assignment.errors.include?(:slug)
+    refute_valid @assignment
   end
 
   test 'slug cannot be longer that 60 characters' do
     @assignment.slug = 'aa' * 60
-    refute @assignment.valid?
+    refute_valid @assignment
   end
 
   test 'slug can only contain letters, numbers, dashes, and underscores' do
     @assignment.slug = '$'
-    refute @assignment.valid?
+    refute_valid @assignment
   end
 
   test 'must have a unique slug scoped to the classroom' do
     assignment2 = assignment(:public_assignment_with_starter_code)
     @assignment.slug = assignment2.slug
-    refute @assignment.valid?
+    refute_valid @assignment
 
     group_assignment = group_assignment(:public_group_assignment)
     @assignment.slug = group_assignment.slug
-    refute @assignment.valid?
+    refute_valid @assignment
   end
 
   test '#flipper_id includes the assignments id' do
@@ -49,22 +47,22 @@ class AssignmentTest < ActiveSupport::TestCase
 
   test '#private? returns true when `public_repo` is false' do
     private_assignment = assignment(:private_assignment)
-    refute private_assignment.public_repo
-    assert private_assignment.private?
+    refute_predicate private_assignment, :public_repo
+    assert_predicate private_assignment, :private?
   end
 
   test '#public? returns true when `public_repo` is true' do
-    assert @assignment.public_repo
-    assert @assignment.public?
+    assert_predicate @assignment, :public_repo
+    assert_predicate @assignment, :public?
   end
 
   test '#starter_code? returns true when the assignment has starter code' do
-    assert assignment(:public_assignment_with_starter_code).starter_code?
+    assert_predicate assignment(:public_assignment_with_starter_code), :starter_code?
   end
 
   test '#starter_code_repository returns a GitHubRepository when there is starter code' do
     assignment = assignment(:public_assignment_with_starter_code)
-    assert assignment.starter_code?
+    assert_predicate assignment, :starter_code?
 
     github_repository = assignment.starter_code_repository
     assert_kind_of GitHubRepository, github_repository

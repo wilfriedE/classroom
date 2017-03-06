@@ -13,20 +13,17 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'title must be present' do
     @organization.title = nil
-    refute @organization.valid?
-    assert @organization.errors.include?(:title)
+    refute_valid @organization
   end
 
   test 'title cannot be longer than 60 characters' do
     @organization.title = 'aa' * 60
-    refute @organization.valid?
-    assert @organization.errors.include?(:title)
+    refute_valid @organization
   end
 
   test 'github_id must be present' do
     @organization.github_id = nil
-    refute @organization.valid?
-    assert @organization.errors.include?(:github_id)
+    refute_valid @organization
   end
 
   test 'github_id must be unique' do
@@ -35,7 +32,7 @@ class OrganizationTest < ActiveSupport::TestCase
       title: 'Classroom for geniuses'
     )
 
-    refute other_organization.valid?
+    refute_valid other_organization
   end
 
   test '#all_assignments returns an Array of Assignments and GroupAssignments' do
