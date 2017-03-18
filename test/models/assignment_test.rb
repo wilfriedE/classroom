@@ -13,32 +13,38 @@ class AssignmentTest < ActiveSupport::TestCase
 
   test '#title must be present' do
     @assignment.title = nil
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:title], :any?
   end
 
   test '#slug must be present' do
     @assignment.slug = nil
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:slug], :any?
   end
 
   test 'slug cannot be longer that 60 characters' do
     @assignment.slug = 'aa' * 60
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:slug], :any?
   end
 
   test 'slug can only contain letters, numbers, dashes, and underscores' do
     @assignment.slug = '$'
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:slug], :any?
   end
 
   test 'must have a unique slug scoped to the classroom' do
     assignment2 = assignment(:public_assignment_with_starter_code)
     @assignment.slug = assignment2.slug
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:slug], :any?
 
     group_assignment = group_assignment(:public_group_assignment)
     @assignment.slug = group_assignment.slug
-    refute_valid @assignment
+    refute_predicate @assignment, :valid?
+    assert_predicate @assignment.errors[:slug], :any?
   end
 
   test '#flipper_id includes the assignments id' do

@@ -27,13 +27,22 @@ GIT
       sawyer (~> 0.8.0, >= 0.5.3)
 
 GIT
-  remote: https://github.com/toptal/chewy.git
-  revision: 4ae2065e9204d39f8ab16df9e6b6b6b187220f87
-  ref: 4ae2065e9204d39f8ab16df9e6b6b6b187220f87
+  remote: https://github.com/tarebyte/peek.git
+  revision: cc4225f5bdaa2e64903fc69a40fdb0208e71070c
+  ref: cc4225f5bdaa2e64903fc69a40fdb0208e71070c
   specs:
-    chewy (0.8.4)
-      activesupport (>= 3.2)
-      elasticsearch (>= 1.0.0)
+    peek (0.2.0)
+      concurrent-ruby (>= 0.9.0)
+      concurrent-ruby-ext (>= 0.9.0)
+      railties (>= 3.0.0)
+
+GIT
+  remote: https://github.com/turbolinks/turbolinks-classic.git
+  revision: 37a7c296232d20a61bd1946f600da7f2009189db
+  ref: 37a7c296232d20a61bd1946f600da7f2009189db
+  specs:
+    turbolinks (3.0.0)
+      coffee-rails
 
 GEM
   remote: https://rubygems.org/
@@ -77,13 +86,13 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (5.7.1)
-      airbrake-ruby (~> 1.7)
+    airbrake (5.8.1)
+      airbrake-ruby (~> 1.8)
     airbrake-ruby (1.8.0)
     arel (7.1.4)
     ast (2.3.0)
     atomic (1.1.99)
-    autoprefixer-rails (6.7.6)
+    autoprefixer-rails (6.7.7)
       execjs
     awesome_print (1.7.0)
     builder (3.2.3)
@@ -91,6 +100,9 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.10.0)
     byebug (9.0.6)
+    chewy (0.9.0)
+      activesupport (>= 3.2)
+      elasticsearch (>= 1.0.0)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -125,11 +137,11 @@ GEM
     ethon (0.10.1)
       ffi (>= 1.3.0)
     execjs (2.7.0)
-    faraday (0.10.1)
+    faraday (0.11.0)
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (2.0.0)
       faraday (~> 0.8)
-    ffi (1.9.17)
+    ffi (1.9.18)
     flipper (0.10.2)
     flipper-redis (0.10.2)
       flipper (~> 0.10.2)
@@ -198,12 +210,15 @@ GEM
     lumberjack (1.0.11)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.10.1)
+    mocha (1.2.1)
+      metaclass (~> 0.0.1)
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
@@ -215,16 +230,16 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
-    oauth2 (1.3.0)
-      faraday (>= 0.8, < 0.11)
+    oauth2 (1.3.1)
+      faraday (>= 0.8, < 0.12)
       jwt (~> 1.0)
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    octicons (2.1.0)
+    octicons (3.0.1)
       nokogiri (>= 1.6.3.1)
-    octicons_helper (2.1.0)
-      octicons (~> 2.0)
+    octicons_helper (3.0.1)
+      octicons (~> 3.0)
       rails
     omniauth (1.6.1)
       hashie (>= 3.4.6, < 3.6.0)
@@ -237,11 +252,6 @@ GEM
       omniauth (~> 1.2)
     parser (2.4.0.0)
       ast (~> 2.2)
-    peek (0.2.0)
-      coffee-rails
-      concurrent-ruby (>= 0.9.0)
-      concurrent-ruby-ext (>= 0.9.0)
-      railties (>= 3.0.0)
     peek-dalli (1.1.3)
       atomic (>= 1.0.0)
       dalli
@@ -252,7 +262,7 @@ GEM
       peek
     peek-performance_bar (1.2.1)
       peek (>= 0.1.0)
-    pg (0.19.0)
+    pg (0.20.0)
     pinglish (0.2.1)
       rack
     powerpack (0.1.1)
@@ -266,7 +276,7 @@ GEM
     pry-rails (0.3.5)
       pry (>= 0.9.10)
     public_suffix (2.0.5)
-    puma (3.7.1)
+    puma (3.8.1)
     puma_worker_killer (0.0.7)
       get_process_mem (~> 0.2)
       puma (>= 2.7, < 4)
@@ -370,13 +380,11 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.6)
     timecop (0.8.1)
-    turbolinks (2.5.3)
-      coffee-rails
     typhoeus (1.1.2)
       ethon (>= 0.9.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (3.1.2)
+    uglifier (3.1.7)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.1.3)
     uniform_notifier (1.10.0)
@@ -402,7 +410,7 @@ DEPENDENCIES
   autoprefixer-rails
   awesome_print
   bullet
-  chewy!
+  chewy (~> 0.9.0)
   dalli
   dotenv-rails
   faraday-http-cache
@@ -418,12 +426,13 @@ DEPENDENCIES
   kaminari
   local_time
   lograge (~> 0.4.1)
+  mocha
   newrelic_rpm
-  octicons_helper (~> 2.1)
+  octicons_helper (~> 3.0, >= 3.0.1)
   octokit!
   omniauth
   omniauth-github
-  peek
+  peek!
   peek-dalli
   peek-gc
   peek-git
@@ -453,7 +462,7 @@ DEPENDENCIES
   sprockets
   terminal-notifier-guard
   timecop
-  turbolinks (~> 2.5, >= 2.5.3)
+  turbolinks!
   typhoeus (~> 1.1, >= 1.1.2)
   uglifier (>= 1.3.0)
   vcr
@@ -464,4 +473,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.14.4
+   1.14.6

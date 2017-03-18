@@ -9,7 +9,7 @@ module Sluggable
   end
 
   def slugify
-    self.slug = title.parameterize
+    self.slug = title.try(:parameterize)
   end
 
   def to_param

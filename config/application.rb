@@ -30,9 +30,7 @@ module GitHubClassroom
     end
 
     # Append directories to autoload paths
-    config.eager_load_paths += [
-      'lib'
-    ].map { |path| Rails.root.join(path).to_s }
+    config.eager_load_paths += %w(lib).map { |path| Rails.root.join(path).to_s }
 
     # GC Profiler for analytics
     GC::Profiler.enable

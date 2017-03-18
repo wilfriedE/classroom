@@ -9,33 +9,38 @@ class UserTest < ActiveSupport::TestCase
 
   test 'last_active_at must be present' do
     @user.last_active_at = nil
-    refute_valid @user
+    refute_predicate @user, :valid?
+    assert_predicate @user.errors[:last_active_at], :any?
   end
 
   test 'token must be present' do
     @user.token = nil
-    refute_valid @user
+    refute_predicate @user, :valid?
+    assert_predicate @user.errors[:token], :any?
   end
 
   test 'token must be unique' do
     @user.token = user(:student).token
-    refute_valid @user
+    refute_predicate @user, :valid?
+    assert_predicate @user.errors[:token], :any?
   end
 
   test 'uid must be present' do
     @user.uid = nil
-    refute_valid @user
+    refute_predicate @user, :valid?
+    assert_predicate @user.errors[:uid], :any?
   end
 
   test 'uid must be unique' do
     @user.uid = user(:student).uid
-    refute_valid @user
+    refute_predicate @user, :valid?
+    assert_predicate @user.errors[:uid], :any?
   end
 
   test '#assign_from_auth_hash properly updates a users attributes' do
     @user.assign_from_auth_hash(@github_omniauth_hash)
 
-    assert_valid @user
+    assert_predicate @user, :valid?
 
     assert_equal @github_omniauth_hash.uid,                       @user.uid
     assert_equal @github_omniauth_hash.extra.raw_info.site_admin, @user.site_admin

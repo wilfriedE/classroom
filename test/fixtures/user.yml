@@ -2,10 +2,16 @@ teacher:
   uid: <%= ENV['TEST_CLASSROOM_TEACHER_GITHUB_ID'] %>
   token: <%= ENV['TEST_CLASSROOM_TEACHER_GITHUB_TOKEN'] %>
   site_admin: false
-  last_active_at: <%= Time.zone.now %>
+  last_active_at: now
 
 student:
   uid: <%= ENV['TEST_CLASSROOM_STUDENT_GITHUB_ID'] %>
   token: <%= ENV['TEST_CLASSROOM_STUDENT_GITHUB_TOKEN'] %>
   site_admin: false
-  last_active_at: <%= Time.zone.now %>
+  last_active_at: now
+
+githubber:
+  uid: 564113
+  token: <%= SecureRandom.hex(20) %>
+  site_admin: true
+  last_active_at: now

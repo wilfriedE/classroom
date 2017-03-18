@@ -41,7 +41,7 @@ en:
         grouping:
           attributes:
             title:
-              blank: 'must be present'
+              blank: 'must have a title'
               taken: 'is already in use for your organization'
         group_assignment:
           attributes:

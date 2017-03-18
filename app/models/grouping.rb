@@ -8,6 +8,7 @@ class Grouping < ApplicationRecord
   has_many :users, through: :groups, source: :repo_accesses
 
   belongs_to :organization
+  validates :organization_id, presence: true
 
   validates :title, presence: true
   validates :title, uniqueness: { scope: :organization }
