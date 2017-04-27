@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AssignmentInvitation < ApplicationRecord
   default_scope { where(deleted_at: nil) }
 
@@ -15,23 +16,13 @@ class AssignmentInvitation < ApplicationRecord
 
   after_initialize :assign_key
 
+  delegate :title, to: :assignment
+
   # Public: Redeem an AssignmentInvtiation for a User invitee.
   #
-  # Returns a AssignmentRepo::Creator::Result.
+  # Returns a AssignmentInvitation::Redeemer::Result.
   def redeem_for(invitee)
-    if (repo_access = RepoAccess.find_by(user: invitee, organization: organization))
-      assignment_repo = AssignmentRepo.find_by(assignment: assignment, repo_access: repo_access)
-      return AssignmentRepo::Creator::Result.success(assignment_repo) if assignment_repo.present?
-    end
-
-    assignment_repo = AssignmentRepo.find_by(assignment: assignment, user: invitee)
-    return AssignmentRepo::Creator::Result.success(assignment_repo) if assignment_repo.present?
-
-    AssignmentRepo::Creator.perform(assignment: assignment, user: invitee)
-  end
-
-  def title
-    assignment.title
+    AssignmentInvitation::Redeemer.perform(invitation: self, invitee: invitee)
   end
 
   def to_param

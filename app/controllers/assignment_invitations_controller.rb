@@ -1,77 +1,37 @@
 # frozen_string_literal: true
+
 class AssignmentInvitationsController < ApplicationController
-  layout 'layouts/invitations'
+  include InvitationsControllerMethods
+  include InvitationRoutesHelper
 
-  before_action :check_user_not_previous_acceptee, only: [:show]
-  before_action :ensure_github_repo_exists, only: [:successful_invitation]
-
-  def accept_invitation
-    create_assignment_repo { redirect_to successful_invitation_assignment_invitation_path }
-  end
-
-  def show; end
-
-  def successful_invitation; end
-
-  private
-
-  def required_scopes
-    GitHubClassroom::Scopes::ASSIGNMENT_STUDENT
-  end
-
-  def assignment
-    @assignment ||= invitation.assignment
-  end
-  helper_method :assignment
-
-  def assignment_repo
-    @assignment_repo ||= AssignmentRepo.find_by(assignment: assignment, user: current_user)
-  end
-  helper_method :assignment_repo
-
-  def invitation
-    @invitation ||= AssignmentInvitation.find_by!(key: params[:id])
-  end
-  helper_method :invitation
-
-  def organization
-    @organization ||= assignment.organization
-  end
-  helper_method :organization
-
-  def create_assignment_repo
-    result = invitation.redeem_for(current_user)
+  def accept
+    result = current_invitation.redeem_for(current_user)
 
     if result.success?
-      yield if block_given?
+      redirect_to successful_invitation_path(current_invitation)
     else
       flash[:error] = result.error
       redirect_to assignment_invitation_path(invitation)
     end
   end
 
-  def new_student_identifier_params
-    params
-      .require(:student_identifier)
-      .permit(:value)
-      .merge(user: current_user,
-             organization: organization,
-             student_identifier_type: assignment.student_identifier_type)
+  private
+
+  def current_invitation
+    @current_invitation ||= AssignmentInvitation.find_by!(key: params[:id])
   end
 
-  def check_user_not_previous_acceptee
-    return unless assignment.users.include?(current_user)
-    redirect_to successful_invitation_assignment_invitation_path
+  def current_repository_submission
+    return @current_repository_submission if defined?(@current_repository_submission)
+    assignment_repo = AssignmentRepo.find_by(
+      assignment_id: current_assignment.id,
+      user_id: current_user.id
+    )
+
+    @current_repository_submission = assignment_repo if assignment_repo.present?
   end
 
-  def ensure_github_repo_exists
-    return not_found unless assignment_repo
-    return if assignment_repo
-              .github_repository
-              .present?(headers: GitHub::APIHeaders.no_cache_no_store)
-
-    assignment_repo.destroy
-    @assignment_repo = nil
-    create_assignment_repo
+  def required_scopes
+    GitHubClassroom::Scopes::ASSIGNMENT_STUDENT
   end
 end
