@@ -82,7 +82,8 @@ class GroupAssignmentsController < ApplicationController
       .merge(creator: current_user,
              organization: @organization,
              starter_code_repo_id: starter_code_repo_id_param,
-             student_identifier_type: student_identifier_type_param)
+             student_identifier_type: student_identifier_type_param,
+             deadline: deadline_param)
   end
 
   def new_grouping_params
@@ -108,6 +109,13 @@ class GroupAssignmentsController < ApplicationController
       validate_starter_code_repository_id(params[:repo_id])
     else
       starter_code_repository_id(params[:repo_name])
+    end
+  end
+
+  # e.g. 05/25/2017 13:17-0800
+  def deadline_param
+    unless params[:group_assignment][:deadline].empty?
+      DateTime.strptime(params[:group_assignment][:deadline], '%m/%d/%Y %H:%M%z')
     end
   end
 
