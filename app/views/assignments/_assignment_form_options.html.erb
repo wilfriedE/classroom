@@ -34,4 +34,9 @@
   <input class="js-autocomplete-resource-id" type="hidden" name="repo_id" />
 </dl>
 
+<dl class="form">
+  <dt><label>Deadline</label></dt>
+  <dd><%= f.text_field :deadline %></dd>
+</dl>
+
 <%= render 'shared/assignment_student_identifier_type_options', assignment: @assignment, student_identifier_types: student_identifier_types %>

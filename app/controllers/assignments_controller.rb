@@ -66,7 +66,8 @@ class AssignmentsController < ApplicationController
       .merge(creator: current_user,
              organization: @organization,
              starter_code_repo_id: starter_code_repo_id_param,
-             student_identifier_type: student_identifier_type_param)
+             student_identifier_type: student_identifier_type_param,
+             deadline: deadline_param)
   end
 
   def set_assignment
@@ -78,6 +79,13 @@ class AssignmentsController < ApplicationController
       validate_starter_code_repository_id(params[:repo_id])
     else
       starter_code_repository_id(params[:repo_name])
+    end
+  end
+
+  # e.g. 05/25/2017 13:17-0800
+  def deadline_param
+    unless params[:assignment][:deadline].empty?
+      DateTime.strptime(params[:assignment][:deadline], '%m/%d/%Y %H:%M%z')
     end
   end
 

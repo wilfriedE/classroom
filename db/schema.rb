@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170319181810) do
+ActiveRecord::Schema.define(version: 20170525175439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20170319181810) do
     t.string   "slug",                                       null: false
     t.integer  "student_identifier_type_id"
     t.boolean  "students_are_repo_admins",   default: false, null: false
+    t.datetime "deadline"
     t.index ["deleted_at"], name: "index_assignments_on_deleted_at", using: :btree
     t.index ["organization_id"], name: "index_assignments_on_organization_id", using: :btree
     t.index ["slug"], name: "index_assignments_on_slug", using: :btree
@@ -91,6 +92,7 @@ ActiveRecord::Schema.define(version: 20170319181810) do
     t.integer  "max_members"
     t.integer  "student_identifier_type_id"
     t.boolean  "students_are_repo_admins",   default: false, null: false
+    t.datetime "deadline"
     t.index ["deleted_at"], name: "index_group_assignments_on_deleted_at", using: :btree
     t.index ["organization_id"], name: "index_group_assignments_on_organization_id", using: :btree
     t.index ["slug"], name: "index_group_assignments_on_slug", using: :btree
