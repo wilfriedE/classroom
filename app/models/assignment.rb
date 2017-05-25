@@ -3,6 +3,7 @@
 class Assignment < ApplicationRecord
   include Flippable
   include GitHubPlan
+  include Deadline
 
   update_index('stafftools#assignment') { self }
 
