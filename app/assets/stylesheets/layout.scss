@@ -22,6 +22,18 @@ a {
     pointer-events: none;
     cursor: default;
   }
+
+  &.submission-icon-container {
+    text-decoration: none;
+
+    .success {
+      fill: $brand-green;
+    }
+
+    .failed {
+      fill: $brand-red;
+    }
+  }
 }
 
 main {

@@ -16,6 +16,10 @@ class GroupAssignmentsController < ApplicationController
   def create
     @group_assignment = build_group_assignment
 
+    if deadlines_enabled?
+      @group_assignment.deadline = Deadline.build_from_string(deadline_at: params[:group_assignment][:deadline])
+    end
+
     if @group_assignment.save
       flash[:success] = "\"#{@group_assignment.title}\" has been created!"
       redirect_to organization_group_assignment_path(@organization, @group_assignment)
@@ -118,7 +122,7 @@ class GroupAssignmentsController < ApplicationController
   def update_group_assignment_params
     params
       .require(:group_assignment)
-      .permit(:title, :slug, :public_repo, :max_members, :students_are_repo_admins)
+      .permit(:title, :slug, :public_repo, :max_members, :students_are_repo_admins, :deadline)
       .merge(starter_code_repo_id: starter_code_repo_id_param, student_identifier_type: student_identifier_type_param)
   end
 
@@ -126,5 +130,9 @@ class GroupAssignmentsController < ApplicationController
     params
       .require(:student_identifier_type)
       .permit(:id)
+  end
+
+  def deadlines_enabled?
+    current_user.feature_enabled?(:deadlines)
   end
 end

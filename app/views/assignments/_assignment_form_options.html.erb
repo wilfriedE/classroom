@@ -38,4 +38,11 @@
   <input class="js-autocomplete-resource-id" type="hidden" name="repo_id" />
 </dl>
 
+<% if current_user.feature_enabled?(:deadlines) %>
+  <dl class="form">
+    <dt><label>Deadline</label></dt>
+    <dd><%= f.text_field :deadline, class: 'jquery-datetimepicker', value: DeadlineFormatHelper.convert(f.object.deadline) %></dd>
+  </dl>
+<% end %>
+
 <%= render 'shared/assignment_student_identifier_type_options', assignment: @assignment, student_identifier_types: student_identifier_types %>

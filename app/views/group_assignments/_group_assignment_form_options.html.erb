@@ -44,6 +44,13 @@
    <%= render 'shared/form_error', errors: view.error_message_for(:max_members) if view.errors_for?(:max_members) %>
 </dl>
 
+<% if current_user.feature_enabled?(:deadlines) %>
+  <dl class="form">
+    <dt><label>Deadline</label></dt>
+    <dd><%= f.text_field :deadline, class: 'jquery-datetimepicker', value: DeadlineFormatHelper.convert(f.object.deadline) %></dd>
+  </dl>
+<% end %>
+
 <%= render 'shared/assignment_student_identifier_type_options', assignment: @group_assignment, student_identifier_types: student_identifier_types %>
 
 <% if @group_assignment.new_record? %>

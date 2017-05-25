@@ -12,6 +12,8 @@ class AssignmentsController < ApplicationController
 
   def create
     @assignment = Assignment.new(new_assignment_params)
+
+    @assignment.deadline = Deadline.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
     @assignment.build_assignment_invitation
 
     if @assignment.save
@@ -88,7 +90,7 @@ class AssignmentsController < ApplicationController
   def update_assignment_params
     params
       .require(:assignment)
-      .permit(:title, :slug, :public_repo, :students_are_repo_admins)
+      .permit(:title, :slug, :public_repo, :students_are_repo_admins, :deadline)
       .merge(starter_code_repo_id: starter_code_repo_id_param, student_identifier_type: student_identifier_type_param)
   end
 
@@ -96,5 +98,9 @@ class AssignmentsController < ApplicationController
     params
       .require(:student_identifier_type)
       .permit(:id)
+  end
+
+  def deadlines_enabled?
+    current_user.feature_enabled?(:deadlines)
   end
 end

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AssignmentRepo < ApplicationRecord
+  include RepoSubmittable
+
   update_index('stafftools#assignment_repo') { self }
 
   belongs_to :assignment
@@ -19,6 +21,8 @@ class AssignmentRepo < ApplicationRecord
 
   delegate :creator, :starter_code_repo_id, to: :assignment
   delegate :github_user,                    to: :user
+  delegate :default_branch,                 to: :github_repository
+  delegate :commits,                        to: :github_repository
 
   # This should really be in a view model
   # but it'll live here for now.
