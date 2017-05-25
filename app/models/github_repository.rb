@@ -37,6 +37,10 @@ class GitHubRepository < GitHubResource
     @client.protect_branch(full_name, branch_name, opts)
   end
 
+  def unprotect_branch(branch_name, opts = {})
+    @client.unprotect_branch(full_name, branch_name, opts)
+  end
+
   def present?(**options)
     self.class.present?(@client, @id, options)
   end
