@@ -40,8 +40,9 @@
 
 <% if current_user.feature_enabled?(:deadlines) %>
   <dl class="form">
-    <dt><label>Deadline</label></dt>
+    <dt><label>Deadline <small>(optional)</small></label></dt>
     <dd><%= f.text_field :deadline, class: 'jquery-datetimepicker', value: DeadlineFormatHelper.convert(f.object.deadline) %></dd>
+    <span class="note">After the deadline, GitHub Classroom will save the latest commit from each repo as a submission. Submission commits are viewable on the assignment page.</span>
   </dl>
 <% end %>
 
