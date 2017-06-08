@@ -13,7 +13,7 @@ class AssignmentsController < ApplicationController
   def create
     @assignment = Assignment.new(new_assignment_params)
 
-    @assignment.deadline = Deadline.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
+    @assignment.deadline = Deadline::Factory.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
     @assignment.build_assignment_invitation
 
     if @assignment.save

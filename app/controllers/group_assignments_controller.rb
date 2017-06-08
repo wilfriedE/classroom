@@ -17,7 +17,7 @@ class GroupAssignmentsController < ApplicationController
     @group_assignment = build_group_assignment
 
     if deadlines_enabled?
-      @group_assignment.deadline = Deadline.build_from_string(deadline_at: params[:group_assignment][:deadline])
+      @group_assignment.deadline = Deadline::Factory.build_from_string(deadline_at: params[:group_assignment][:deadline])
     end
 
     if @group_assignment.save
