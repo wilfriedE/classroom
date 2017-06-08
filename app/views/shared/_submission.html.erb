@@ -1,7 +1,7 @@
 <% if repo.submission_failed? %>
-  <a class="submission-icon-container tooltipped tooltipped-n" aria-label="No Submission" href="#">
+  <span class="submission-icon-container tooltipped tooltipped-n" aria-label="No Submission" href="#">
     <%= octicon 'stop', height: 20, class: 'failed' %>
-  </a>
+  </span>
 <% elsif repo.submission_succeeded? %>
   <a class="submission-icon-container tooltipped tooltipped-n" aria-label="View Submission" href="<%= @assignment_repo.submission_url %>" target='_blank' >
     <%= octicon 'checklist', height: 20, class: 'success' %>

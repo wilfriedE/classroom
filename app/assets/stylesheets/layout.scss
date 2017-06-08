@@ -22,17 +22,18 @@ a {
     pointer-events: none;
     cursor: default;
   }
+}
 
-  &.submission-icon-container {
-    text-decoration: none;
+.submission-icon-container {
+  text-decoration: none;
+  cursor: pointer;
 
-    .success {
-      fill: $brand-green;
-    }
+  .success {
+    fill: $brand-green;
+  }
 
-    .failed {
-      fill: $brand-red;
-    }
+  .failed {
+    fill: $brand-red;
   }
 }
 
