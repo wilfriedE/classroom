@@ -134,8 +134,4 @@ class GroupAssignmentsController < ApplicationController
       .require(:student_identifier_type)
       .permit(:id)
   end
-
-  def deadlines_enabled?
-    current_user.feature_enabled?(:deadlines)
-  end
 end
