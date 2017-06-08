@@ -75,9 +75,9 @@ class AssignmentsController < ApplicationController
   end
 
   def deadline_param
-    if deadlines_enabled? && params[:assignment][:deadline].present?
-      Deadline::Factory.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
-    end
+    return unless deadlines_enabled? && params[:assignment][:deadline].present?
+
+    Deadline::Factory.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
   end
 
   def starter_code_repo_id_param

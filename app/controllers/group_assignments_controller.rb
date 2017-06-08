@@ -104,9 +104,9 @@ class GroupAssignmentsController < ApplicationController
   end
 
   def deadline_param
-    if deadlines_enabled? && params[:group_assignment][:deadline].present?
-      Deadline::Factory.build_from_string(deadline_at: params[:group_assignment][:deadline])
-    end
+    return unless deadlines_enabled? && params[:group_assignment][:deadline].present?
+
+    Deadline::Factory.build_from_string(deadline_at: params[:group_assignment][:deadline])
   end
 
   def starter_code_repo_id_param

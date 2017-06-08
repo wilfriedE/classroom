@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Deadline
   class Factory
     # Accepts an optional datetime format string :datetime_format

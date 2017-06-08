@@ -47,13 +47,11 @@ class Assignment
       @options    = options
     end
 
+    # rubocop:disable AbcSize
     def perform
-      deadline_param = @options.delete(:deadline)
-      unless deadline_param == @assignment.deadline&.deadline_at
-        recreate_deadline(deadline_param)
-      end
+      recreate_deadline(deadline_param) if deadline_updated?
 
-      @assignment.update_attributes(@options)
+      @assignment.update_attributes(@options.except(:deadline))
       raise Result::Error, @assignment.errors.full_messages.join("\n") unless @assignment.valid?
 
       @assignment.previous_changes.each do |attribute, change|
@@ -63,6 +61,7 @@ class Assignment
     rescue Result::Error => err
       Result.failed(err.message)
     end
+    # rubocop:enable AbcSize
 
     private
 
@@ -84,6 +83,10 @@ class Assignment
       when 'public_repo'
         Assignment::RepositoryVisibilityJob.perform_later(@assignment, change: change)
       end
+    end
+
+    def deadline_updated?
+      @options[:deadline] != @assignment.deadline&.deadline_at
     end
   end
 end
