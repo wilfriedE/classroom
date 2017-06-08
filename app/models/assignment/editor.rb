@@ -49,7 +49,7 @@ class Assignment
 
     # rubocop:disable AbcSize
     def perform
-      recreate_deadline(deadline_param) if deadline_updated?
+      recreate_deadline(@options[:deadline]) if deadline_updated?
 
       @assignment.update_attributes(@options.except(:deadline))
       raise Result::Error, @assignment.errors.full_messages.join("\n") unless @assignment.valid?
