@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AssignmentRepo < ApplicationRecord
-  include RepoSubmittable
-
   update_index('stafftools#assignment_repo') { self }
 
   belongs_to :assignment

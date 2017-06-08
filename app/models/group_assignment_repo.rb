@@ -4,7 +4,6 @@ class GroupAssignmentRepo < ApplicationRecord
   include GitHubPlan
   include GitHubRepoable
   include Nameable
-  include RepoSubmittable
 
   update_index('stafftools#group_assignment_repo') { self }
 
