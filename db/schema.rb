@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20170609181708) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.string "short_key"
     t.index ["assignment_id"], name: "index_assignment_invitations_on_assignment_id"
     t.index ["deleted_at"], name: "index_assignment_invitations_on_deleted_at"
     t.index ["key"], name: "index_assignment_invitations_on_key", unique: true
@@ -40,27 +41,28 @@ ActiveRecord::Schema.define(version: 20170609181708) do
     t.index ["user_id"], name: "index_assignment_repos_on_user_id"
   end
 
-  create_table "assignments", force: :cascade do |t|
-    t.boolean  "public_repo",                default: true
-    t.string   "title",                                      null: false
-    t.integer  "organization_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "starter_code_repo_id"
-    t.integer  "creator_id"
+  create_table "assignments", id: :serial, force: :cascade do |t|
+    t.boolean "public_repo", default: true
+    t.string "title", null: false
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "starter_code_repo_id"
+    t.integer "creator_id"
     t.datetime "deleted_at"
-    t.string   "slug",                                       null: false
-    t.integer  "student_identifier_type_id"
-    t.boolean  "students_are_repo_admins",   default: false, null: false
-    t.index ["deleted_at"], name: "index_assignments_on_deleted_at", using: :btree
-    t.index ["organization_id"], name: "index_assignments_on_organization_id", using: :btree
-    t.index ["slug"], name: "index_assignments_on_slug", using: :btree
+    t.string "slug", null: false
+    t.integer "student_identifier_type_id"
+    t.boolean "students_are_repo_admins", default: false, null: false
+    t.index ["deleted_at"], name: "index_assignments_on_deleted_at"
+    t.index ["organization_id"], name: "index_assignments_on_organization_id"
+    t.index ["slug"], name: "index_assignments_on_slug"
   end
 
   create_table "deadlines", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.string "assignment_type"
     t.integer "assignment_id"
-    t.datetime "deadline_at", null: false
+    t.datetime "deadline_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignment_type", "assignment_id"], name: "index_deadlines_on_assignment_type_and_assignment_id"
@@ -72,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170609181708) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.string "short_key"
     t.index ["deleted_at"], name: "index_group_assignment_invitations_on_deleted_at"
     t.index ["group_assignment_id"], name: "index_group_assignment_invitations_on_group_assignment_id"
     t.index ["key"], name: "index_group_assignment_invitations_on_key", unique: true
@@ -88,23 +91,23 @@ ActiveRecord::Schema.define(version: 20170609181708) do
     t.index ["group_assignment_id"], name: "index_group_assignment_repos_on_group_assignment_id"
   end
 
-  create_table "group_assignments", force: :cascade do |t|
-    t.boolean  "public_repo",                default: true
-    t.string   "title",                                      null: false
-    t.integer  "grouping_id"
-    t.integer  "organization_id"
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
-    t.integer  "starter_code_repo_id"
-    t.integer  "creator_id"
+  create_table "group_assignments", id: :serial, force: :cascade do |t|
+    t.boolean "public_repo", default: true
+    t.string "title", null: false
+    t.integer "grouping_id"
+    t.integer "organization_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "starter_code_repo_id"
+    t.integer "creator_id"
     t.datetime "deleted_at"
-    t.string   "slug",                                       null: false
-    t.integer  "max_members"
-    t.integer  "student_identifier_type_id"
-    t.boolean  "students_are_repo_admins",   default: false, null: false
-    t.index ["deleted_at"], name: "index_group_assignments_on_deleted_at", using: :btree
-    t.index ["organization_id"], name: "index_group_assignments_on_organization_id", using: :btree
-    t.index ["slug"], name: "index_group_assignments_on_slug", using: :btree
+    t.string "slug", null: false
+    t.integer "max_members"
+    t.integer "student_identifier_type_id"
+    t.boolean "students_are_repo_admins", default: false, null: false
+    t.index ["deleted_at"], name: "index_group_assignments_on_deleted_at"
+    t.index ["organization_id"], name: "index_group_assignments_on_organization_id"
+    t.index ["slug"], name: "index_group_assignments_on_slug"
   end
 
   create_table "groupings", id: :serial, force: :cascade do |t|
