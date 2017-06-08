@@ -58,10 +58,9 @@ ActiveRecord::Schema.define(version: 20170609181708) do
   end
 
   create_table "deadlines", id: :serial, force: :cascade do |t|
-    t.string "name"
     t.string "assignment_type"
     t.integer "assignment_id"
-    t.datetime "deadline_at"
+    t.datetime "deadline_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["assignment_type", "assignment_id"], name: "index_deadlines_on_assignment_type_and_assignment_id"
