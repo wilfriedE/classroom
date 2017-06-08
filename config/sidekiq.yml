@@ -1,3 +1,6 @@
+# For information on Sidekiq queues:
+# https://github.com/mperham/sidekiq/wiki/Advanced-Options#queues
+
 ---
 :concurrency: <%= Integer(ENV['SIDEKIQ_CONCURRENCY'] || 5) %>
 :verbose: false
