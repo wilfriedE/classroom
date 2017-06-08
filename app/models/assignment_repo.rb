@@ -21,8 +21,7 @@ class AssignmentRepo < ApplicationRecord
 
   delegate :creator, :starter_code_repo_id, to: :assignment
   delegate :github_user,                    to: :user
-  delegate :default_branch,                 to: :github_repository
-  delegate :commits,                        to: :github_repository
+  delegate :default_branch, :commits,       to: :github_repository
 
   # This should really be in a view model
   # but it'll live here for now.
