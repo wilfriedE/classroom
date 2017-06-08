@@ -48,7 +48,10 @@ class Assignment
     end
 
     def perform
-      handle_deadline(@options.delete(:deadline))
+      deadline_param = @options.delete(:deadline)
+      unless deadline_param == @assignment.deadline&.deadline_at
+        recreate_deadline(deadline_param)
+      end
 
       @assignment.update_attributes(@options)
       raise Result::Error, @assignment.errors.full_messages.join("\n") unless @assignment.valid?
@@ -63,10 +66,7 @@ class Assignment
 
     private
 
-    def handle_deadline(deadline)
-      # If deadline has not changed, we don't need to recreate
-      return if deadline == @assignment.deadline&.deadline_at
-
+    def recreate_deadline(deadline)
       @assignment.deadline&.destroy
 
       new_deadline(deadline) if deadline.present?
