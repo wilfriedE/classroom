@@ -76,6 +76,7 @@ class Assignment
       raise Result::Error, new_deadline.errors.full_messages.join("\n") unless new_deadline.valid?
 
       @assignment.deadline = new_deadline
+      @assignment.deadline.create_job
     end
 
     def update_attribute_for_all_assignment_repos(attribute:, change:)

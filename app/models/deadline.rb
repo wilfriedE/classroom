@@ -5,8 +5,6 @@ class Deadline < ApplicationRecord
   validates :deadline_at, presence: true
   validate :deadline_in_future
 
-  after_create :create_job
-
   def create_job
     DeadlineJob.set(wait_until: deadline_at).perform_later(id)
   end

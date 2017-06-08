@@ -17,6 +17,8 @@ class GroupAssignmentsController < ApplicationController
     @group_assignment = build_group_assignment
 
     if @group_assignment.save
+      @group_assignment.deadline&.create_job
+
       flash[:success] = "\"#{@group_assignment.title}\" has been created!"
       redirect_to organization_group_assignment_path(@organization, @group_assignment)
     else
