@@ -13,7 +13,6 @@ class AssignmentsController < ApplicationController
   def create
     @assignment = Assignment.new(new_assignment_params)
 
-    @assignment.deadline = Deadline::Factory.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
     @assignment.build_assignment_invitation
 
     if @assignment.save
@@ -67,11 +66,18 @@ class AssignmentsController < ApplicationController
       .merge(creator: current_user,
              organization: @organization,
              starter_code_repo_id: starter_code_repo_id_param,
-             student_identifier_type: student_identifier_type_param)
+             student_identifier_type: student_identifier_type_param,
+             deadline: deadline_param)
   end
 
   def set_assignment
     @assignment = @organization.assignments.includes(:assignment_invitation).find_by!(slug: params[:id])
+  end
+
+  def deadline_param
+    if deadlines_enabled? && params[:assignment][:deadline].present?
+      Deadline::Factory.build_from_string(deadline_at: params[:assignment][:deadline]) if deadlines_enabled?
+    end
   end
 
   def starter_code_repo_id_param
