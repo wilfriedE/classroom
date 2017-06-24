@@ -7,12 +7,53 @@
       </span>
     </div>
 
-    <div class="col-10 col-md-10 d-flex flex-column">
+    <div class="col-9 col-md-9 d-flex flex-column">
       <h2 class="stafftools-heading">
         <%= @assignment.title %>
       </h2>
 
       <p class="assignment-type text-gray">Individual assignment</p>
+    </div>
+    <div class="col-2 col-md-2 d-flex flex-column flex-items-center">
+      <div class="select-menu js-menu-container js-select-menu">
+        <button class="btn select-menu-button js-menu-target" type="button" aria-haspopup="true" aria-expanded="false">
+          Choose an item
+        </button>
+        <div class="select-menu-modal-holder">
+          <div class="select-menu-modal js-menu-content">
+            <div class="select-menu-list js-navigation-container">
+              <a class="select-menu-item selected js-navigation-item" href="#url">
+                <%= octicon("check", :class => "select-menu-item-icon") %>
+                <span class="select-menu-item-text js-select-button-text">Item 1</span>
+              </a>
+              <a class="select-menu-item js-navigation-item" href="#url">
+                <%= octicon("check", :class => "select-menu-item-icon") %>
+                <span class="select-menu-item-text js-select-button-text">Item 2</span>
+              </a>
+              <a class="select-menu-item js-navigation-item" href="#url">
+                <%= octicon("check", :class => "select-menu-item-icon") %>
+                <span class="select-menu-item-text js-select-button-text">Item 3</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="dropdown">
+        <button class="btn btn-outline dropdown-togle" type="button">Change Creator</button>
+        <div class="position-absolute Box Box--condensed dropdown-content">
+          <ul class="filter-list">
+            <% @assignment.organization.users.reject { |u| u.id == @assignment.creator_id }.each do |c| %>
+            <li class="filter-item p-0">
+              <%= link_to update_creator_stafftools_assignment_path(@assignment.id, user_id: c), method: :post, class: "d-flex flex-items-center" do %>
+                <%= image_tag c.github_user.github_avatar_url(40), class: 'avatar', alt: "@#{c.github_user.login}", height: 20, width: 20 %>
+                <p class="pl-1 m-0"><%= c.github_user.name %></p>
+              <% end %>
+            </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 

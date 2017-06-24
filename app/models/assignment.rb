@@ -57,6 +57,12 @@ class Assignment < ApplicationRecord
     @starter_code_repository ||= GitHubRepository.new(creator.github_client, starter_code_repo_id)
   end
 
+  def update_creator(new_creator)
+    return unless (new_creator != creator) && organization.users.include?(new_creator)
+    self.creator = new_creator
+    save!
+  end
+
   def to_param
     slug
   end

@@ -1,0 +1,18 @@
+.dropdown {
+  right: 0;
+}
+
+.dropdown-content {
+  display: none;
+
+  &.active {
+    z-index: 9999;
+    display: block;
+  }
+
+  ::after {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

@@ -100,7 +100,11 @@ Rails.application.routes.draw do
 
     resources :assignment_invitations, only: [:show]
     resources :assignment_repos,       only: %i[show destroy]
-    resources :assignments,            only: [:show]
+    resources :assignments,            only: [:show] do
+      member do
+        post '/update-creator/:user_id', to: 'assignments#update_creator', as: 'update_creator'
+      end
+    end
 
     resources :group_assignment_invitations, path: 'group-assignment-invitations', only: [:show]
     resources :group_assignment_repos,       path: 'group-assignment-repos',       only: %i[show destroy]
