@@ -40,6 +40,24 @@ class ClassroomConfig
     repo.branch_present?(CONFIG_BRANCH)
   end
 
+  # Public: Helper to retrieve the classroom config instance of an Assignment Repo
+  #
+  # assignment_repo - AssignmentRepo or GroupAssignmentRepo
+  #
+  # Returns instance of ClassroomConfig
+  def self.classroom_config(assignment_repo)
+    starter_code_repo_id = assignment_repo.starter_code_repo_id
+
+    return unless starter_code_repo_id
+
+    client       = assignment_repo.creator.github_client
+    starter_repo = GitHubRepository.new(client, starter_code_repo_id)
+
+    @classroom_config ||= ClassroomConfig.new(starter_repo)
+  rescue ArgumentError
+    nil
+  end
+
   private
 
   # Internal: Generates issues for the assignment_repository based on the configs

@@ -72,11 +72,7 @@ class AssignmentInvitationsController < ApplicationController
   end
 
   def classroom_config
-    starter_code_repo_id = current_submission.starter_code_repo_id
-    client               = current_submission.creator.github_client
-
-    starter_repo         = GitHubRepository.new(client, starter_code_repo_id)
-    ClassroomConfig.new(starter_repo)
+    @classroom_config ||= ClassroomConfig.classroom_config(current_submission)
   end
 
   def configurable_submission?

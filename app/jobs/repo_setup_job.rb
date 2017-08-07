@@ -27,10 +27,6 @@ class RepoSetupJob < ApplicationJob
   end
 
   def classroom_config
-    starter_code_repo_id = @assignment_repo.starter_code_repo_id
-    client               = @assignment_repo.creator.github_client
-
-    starter_repo         = GitHubRepository.new(client, starter_code_repo_id)
-    ClassroomConfig.new(starter_repo)
+    @classroom_config ||= ClassroomConfig.classroom_config(@assignment_repo)
   end
 end

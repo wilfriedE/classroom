@@ -146,14 +146,7 @@ class GroupAssignmentInvitationsController < ApplicationController
   helper_method :organization
 
   def classroom_config
-    starter_code_repo_id = group_assignment_repo.starter_code_repo_id
-
-    return unless starter_code_repo_id
-
-    client       = group_assignment_repo.creator.github_client
-    starter_repo = GitHubRepository.new(client, starter_code_repo_id)
-
-    @classroom_config ||= ClassroomConfig.new(starter_repo)
+    @classroom_config ||= ClassroomConfig.classroom_config(group_assignment_repo)
   end
 
   def configurable_submission?
